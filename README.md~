@@ -33,7 +33,6 @@ With these variables, one can plot a mean-field diblock copolymer phase diagram 
 ```
 plotphase(N,FAV);
 ```
-<img src="./example_figures/MFphase.eps" width="800" height="600" />
 
 If fluctuation effects needs to be considered, one can make a phase diagram with presence of density fluctuations with
 ```
