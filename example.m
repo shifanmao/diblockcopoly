@@ -17,17 +17,18 @@ plotphase(N,FAV);
 plotphaseRG(N,C,FAV);
 
 % Figure 3-4: mean-field spinodal and critical wavelength at FA=0.5
-NV=logspace(-1,3,20);  % number of statistical steps of total chain
+NV=logspace(-1,3,51);  % number of statistical steps of total chain
 [chis,ks,d2gam2]=spinodal(NV,0.5);
+
 figure;hold;set(gca,'fontsize',20);
 plot(NV,chis.*NV,'linewidth',2);
 set(gca,'xscale','log');set(gca,'yscale','linear');
-xlabel('N');ylabel('\chiN')
+xlabel('N');ylabel('\chiN');box on
 
 figure;hold;set(gca,'fontsize',20);
 plot(NV,1./ks,'linewidth',2);
 set(gca,'xscale','log');set(gca,'yscale','log');
-xlabel('N');ylabel('1/q^*')
+xlabel('N');ylabel('1/q^*');box on
 
 % Figure 5: renormalized spinodal at FA=0.5
 CV=logspace(1,4,21)';
@@ -53,11 +54,11 @@ NQ=1;  % number of wavevector sets in calculating GAM4
 [gam3,gam4]=calcgamma(N,FAV,NQ);
 figure;hold;set(gca,'fontsize',20)
 plot(FAV,-gam3*N,'k-','linewidth',2);xlim([0.2,0.5]);
-xlabel('f_A');ylabel('-N\Gamma_3(q^*)')
+xlabel('f_A');ylabel('-N\Gamma_3(q^*)');box on
 
 figure;hold;set(gca,'fontsize',20)
 plot(FAV,gam4*N,'k-','linewidth',2);xlim([0.3,0.5]);
-xlabel('f_A');ylabel('N\Gamma_4(q^*)')
+xlabel('f_A');ylabel('N\Gamma_4(q^*)');box on
 
 figure(1);saveas(gca,'example_figures/MFphase.png','png')
 figure(2);saveas(gca,'example_figures/FLCphase.png','png')
