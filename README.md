@@ -35,13 +35,13 @@ plotphase(N,FAV);
 ```
 <img src="./example_figures/MFphase.png" width="800" height="600" />
 
-If fluctuation effects needs to be considered, one can make a phase diagram with presence of density fluctuations with
+If fluctuation effects needs to be considered, one can make a phase diagram with presence of density fluctuations with `plotphaseRG`.
 ```
 plotphaseRG(N,C,FAV);
 ```
 <img src="./example_figures/FLCphase.png" width="800" height="600" />
 
-The MF phase transition spinodal of diblock copolymer, and MF domain size `1/q^*` at different chain rigidities can be found with
+The MF phase transition spinodal of diblock copolymer, and MF domain size `1/q^*` at different chain rigidities can be found with function `spinodal`.
 ```
 NV=logspace(-1,3,20);  % number of statistical steps of total chain
 [chis,ks,d2gam2]=spinodal(NV,0.5);
@@ -51,13 +51,12 @@ figure;loglog(NV,1./ks);xlabel('N');ylabel('1/q^*')
 <img src="./example_figures/spinodal.png" width="800" height="600" />
 <img src="./example_figures/domain.png" width="800" height="600" />
 
-The effect of density fluctuations of the above spinodal can be found with
+The effect of density fluctuations of the above spinodal can be found with function `spinodalRG`.
 ```
 CV=logspace(1,4,21);
 [chit,phase]=spinodalRG(N,CV,0.5);
 chit=reshape(chit,length(CV),1);
 ```
-
 For comparison, renormalized spinodals can be plotted against MF and empirical solutions
 ```
 col='b';
@@ -72,13 +71,14 @@ legend('MF theory','Renormalized ODT','Fit')
 ```
 <img src="./example_figures/FLCspinodal.png" width="800" height="600" />
 
-Density-density correlations (structure factors) can be plotted using
+Density-density correlations (structure factors) can be plotted using `densityRG`, along with inverse of peak intensity.
 ```
 densityRG(N,C,0.5);
 ```
 <img src="./example_figures/psi2.png" width="800" height="600" />
+<img src="./example_figures/sinv.png" width="800" height="600" />
 
-Finally, vertex functions of free energy expansion
+Finally, vertex functions of free energy expansion at different chemical compositions can be found using functions `calcgamma`.
 ```
 NQ=1;  % number of wavevector sets in calculating GAM4
 [gam3,gam4]=calcgamma(N,FAV,NQ);
