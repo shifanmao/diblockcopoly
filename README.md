@@ -11,6 +11,21 @@ Renormalized phase diagrams are found by F-H/Brazovskii theory of free energy ex
 up to quartic-order density fluctuations.
 
 ## Run example
+```
+clear;close all;
+addpath('functions')
+addpath('chainstats')
+addpath('misc')
+addpath('chainstats/eigcalc')
+addpath('chainstats/integrals')
+
+N=1e4;  % number of statistical steps of total chain
+FAV=linspace(0.1,0.5,41);  % range of A monomer chemical composition
+C=1e3;  % dimensionless excluded volume parameter in the Gaussian limit
+        % In the Gaussian chain limit, Nbar = C^2
+```
+
+
 example.m provides simple demo that utilizes the functions including
 - plotphase, plots a mean-field diblock copolymer phase diagram
 - plotphaseRG, plots a diblock copolymer phase diagram with density fluctuations
