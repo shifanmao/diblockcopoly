@@ -31,7 +31,6 @@ saveas(gca,'example_figures/domain.png','png')
 CV=logspace(1,4,21)';
 [chit,phase]=spinodalRG(N,CV,0.5);
 chit=reshape(chit,length(CV),1);
-saveas(gca,'example_figures/FLCspinodal.png','png')
 
 figure;hold;set(gca,'fontsize',20)
 col='b';
@@ -43,7 +42,7 @@ plot(CV.^2,ones(length(CV),1)*10.480+41.01*power(CV,-2/3),'--','linewidth',2,'co
 set(gca,'xscale','log');box on
 xlabel('C^2');ylabel('\chiN');title(['N=',num2str(N)])
 legend('MF theory','Renormalized ODT','Fit')
-saveas(gca,'example_figures/FLCspinodal2.png','png')
+saveas(gca,'example_figures/FLCspinodal.png','png')
 
 % Figure 5: density-density correlations
 densityRG(N,C,0.5);
