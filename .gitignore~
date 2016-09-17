@@ -1,0 +1,5 @@
+# data
+data/*
+
+# figures
+mkfigures/*.eps
