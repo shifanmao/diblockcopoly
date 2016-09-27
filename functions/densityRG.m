@@ -1,4 +1,4 @@
-function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,PLOTRG,NCHI)
+function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,PLOTDENSITY,PLOTRG,NCHI)
 % Plot density-density correlations during phase transition
 % according to Mean-field theory and FH theory
 % Usage :: [chis,chit]=densityRG(N,Nbar,FA)
@@ -10,11 +10,18 @@ function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,PLOTRG,NCHI)
 
 if nargin == 3
     PLOTRG = 1;
+    PLOTDENSITY = 1;
     NCHI = 100;
 end
 
 % find mean-field spinodal
 [chis,ks,d2gamma2]=spinodal(N,FA);
+
+% find quartic order paramter
+% gamma4 at angle phi=pi (assume no q dependence)
+NQ=1;
+[~,gam4]=calcgamma(N,FA,NQ);
+gam4=real(gam4(end,1));
 
 % PLOT1: DENSITY CORRELATION  %%
 % wavevectors
@@ -22,73 +29,65 @@ kmin=0.1;kmax=20;
 k=power(linspace(kmin,kmax,200),1)/sqrt(r2(N));
 
 % Flory-Huggins parameter
-CHIV=0:0.2:0.8;
+if (PLOTDENSITY)
+    figure;hold;set(gca,'fontsize',20)
+    CHIV=0:0.2:0.8;
+    p1=[];p2=[];
+    for ii = 1:length(CHIV)
+        CHI=chis*CHIV(ii);
+        if length(CHIV)>1
+            col = (ii-1)/(length(CHIV)-1);
+        else
+            col = 0;
+        end
 
-figure;hold;set(gca,'fontsize',20)
-p1=[];p2=[];
-for ii = 1:length(CHIV)
-    CHI=chis*CHIV(ii);
-    if length(CHIV)>1
-        col = (ii-1)/(length(CHIV)-1);
-    else
-        col = 0;
-    end
+        if CHI<=0.9*chis
+            % plot mean-field results
+            Smf=densitymf(N,FA,k,CHI);
+            p1(ii)=plot(k*sqrt(r2(N)),Smf./N,'color',[col 0 1-col],'linestyle','--','linewidth',2);
+            plot(ks*sqrt(r2(N)),densitymf(N,FA,ks,CHI)/N,'o',...
+                'MarkerSize',8,'MarkerEdgecolor',[col 0 1-col]);
+        end
 
-    if CHI<=0.9*chis
-        % plot mean-field results
-        Smf=densitymf(N,FA,k,CHI);
-        p1(ii)=plot(k*sqrt(r2(N)),Smf./N,'color',[col 0 1-col],'linestyle','--','linewidth',2);
-        plot(ks*sqrt(r2(N)),densitymf(N,FA,ks,CHI)/N,'o',...
-            'MarkerSize',8,'MarkerEdgecolor',[col 0 1-col]);
-    end
-    
-    if (PLOTRG)
         % plot RG results
-        Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2);
+        Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2,gam4);
         p2(ii)=plot(k*sqrt(r2(N)),Sfh./N,'color',[col 0 1-col],'linestyle','-','linewidth',2);
-        plot(ks*sqrt(r2(N)),densityfh(N,C,FA,ks,ks,CHI,d2gamma2)/N,'o',...
+        plot(ks*sqrt(r2(N)),densityfh(N,C,FA,ks,ks,CHI,d2gamma2,gam4)/N,'o',...
             'MarkerSize',8,'MarkerFacecolor',[col 0 1-col],'MarkerEdgecolor',[col 0 1-col]);
     end
+    xlim([kmin,kmax]);box on
+    xlabel('qR');ylabel('<\psi^2>/N')
+    % legend(p2,{'\chi=0','\chi=0.2\chi_S^{MF}',...
+    %     '\chi=0.4\chi_S^{MF}','\chi=0.6\chi_S^{MF}','\chi=0.8\chi_S^{MF}'},'location','northeast')
 end
-xlim([kmin,kmax]);box on
-xlabel('qR');ylabel('<\psi^2>/N')
-% legend(p2,{'\chi=0','\chi=0.2\chi_S^{MF}',...
-%     '\chi=0.4\chi_S^{MF}','\chi=0.6\chi_S^{MF}','\chi=0.8\chi_S^{MF}'},'location','northeast')
 
 % PLOT2: CRITICAL MODE vs CHI
-% Flory-Huggins parameter
-CHIV=linspace(0,4,NCHI);
+if (PLOTRG)
+    % Flory-Huggins parameter
+    CHIV=linspace(0,4,NCHI);
 
-Smf = zeros(length(CHIV),1);
-Sfh = zeros(length(CHIV),1);
-for ii = 1:length(CHIV)
-    CHI = CHIV(ii)*chis;
-    Smf(ii)=densitymf(N,FA,ks,CHI);
-    
-    if (PLOTRG)
-        Sfh(ii)=densityfh(N,C,FA,ks,ks,CHI,d2gamma2);
+    Smf = zeros(length(CHIV),1);
+    Sfh = zeros(length(CHIV),1);
+    for ii = 1:length(CHIV)
+        CHI = CHIV(ii)*chis;
+        Smf(ii)=densitymf(N,FA,ks,CHI);
+        Sfh(ii)=densityfh(N,C,FA,ks,ks,CHI,d2gamma2,gam4);
     end
-end
 
-figure;hold;set(gca,'fontsize',20)
-col = 'k';
-plot(CHIV*chis*N,1./Smf,'--','linewidth',2,'color',col);
-
-if (PLOTRG)
+%     figure;hold;set(gca,'fontsize',20)
+    col = 'k';
+    plot(CHIV*chis*N,1./Smf,'--','linewidth',2,'color',col);
     plot(CHIV*chis*N,1./Sfh,'-','linewidth',2,'color',col);
-end
 
-xlim([1,17]);ylim([0,20]);box on
-% xlabel('\chi N');ylabel('1/<\psi^2(q^*)>')
-xlabel('\chi N');ylabel('$N<\tilde{\psi}(q^*)\tilde{\psi}(-q^*)>^{-1}$','Interpreter','latex')
+    xlim([1,17]);ylim([0,20]);box on
+    xlabel('\chi N');ylabel('$N<\tilde{\psi}(q^*)\tilde{\psi}(-q^*)>^{-1}$','Interpreter','latex')
 
-sinvmf=densitymf(N,FA,ks,chis);
-plot(chis*N,1./sinvmf,'o','color',col,...
-    'MarkerSize',8,'MarkerFaceColor',col);
-if (PLOTRG)
+    sinvmf=densitymf(N,FA,ks,chis);
+    plot(chis*N,1./sinvmf,'o','color',col,...
+        'MarkerSize',8,'MarkerFaceColor',col);
     % find renormalized spinodal
     chit=spinodalRG(N,C,FA);
-    sinvfh=densityfh(N,C,FA,ks,ks,chit,d2gamma2);
+    sinvfh=densityfh(N,C,FA,ks,ks,chit,d2gamma2,gam4);
         plot(chit*N,1./sinvfh,'s','color',col,...
         'MarkerSize',8,'MarkerFaceColor',col);
 end
@@ -101,8 +100,8 @@ Gmf=gamma2(N,FA,k,CHI);
 Smf=1./(N*Gmf);  % Density-density correlation
 end
 
-function Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2)
-% RG with no q dependence (F-H)
+function Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2,gam4)
+% RG with no q dependence (F-H method)
 % self-consistent equations:
 %  unknowns x(1)=r, x(2)=alpha
 %  r = N*gamma2+pref*N*gamma4
@@ -111,11 +110,6 @@ function Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2)
 
 % Calculate a few constants gamma2
 gam2 = gamma2(N,FA,ks,CHI);
-
-% gamma4 at angle phi=pi (assume no q dependence)
-NQ=1;
-[~,gam4]=calcgamma(N,FA,NQ);
-gam4=real(gam4(end,1));
 
 % solve self-consistent equations
 alpha=power(d2gamma2/2*N/r2(N),1/2);
