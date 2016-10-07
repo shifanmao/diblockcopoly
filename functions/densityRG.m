@@ -1,4 +1,5 @@
-function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,PLOTDENSITY,PLOTRG,NCHI)
+function [k,Smf,Sfh]=densityRG(N,C,FA,CHIV,PLOTDENSITY,PLOTRG,NCHI)
+% function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,CHIV,PLOTDENSITY,PLOTRG,NCHI)
 % Plot density-density correlations during phase transition
 % according to Mean-field theory and FH theory
 % Usage :: [chis,chit]=densityRG(N,Nbar,FA)
@@ -8,14 +9,19 @@ function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,PLOTDENSITY,PLO
 %   FA, fraction of A monomers
 %   CHIV, range of CHI values
 
+% find mean-field spinodal
+[chis,ks,d2gamma2]=spinodal(N,FA);
+
 if nargin == 3
+    CHIV=[0:0.2:0.8]*chis;
+    PLOTRG = 1;
+    PLOTDENSITY = 1;
+    NCHI = 100;    
+elseif nargin == 4
     PLOTRG = 1;
     PLOTDENSITY = 1;
     NCHI = 100;
 end
-
-% find mean-field spinodal
-[chis,ks,d2gamma2]=spinodal(N,FA);
 
 % find quartic order paramter
 % gamma4 at angle phi=pi (assume no q dependence)
@@ -26,33 +32,33 @@ gam4=real(gam4(end,1));
 % PLOT1: DENSITY CORRELATION  %%
 % wavevectors
 kmin=0.1;kmax=20;
-k=power(linspace(kmin,kmax,200),1)/sqrt(r2(N));
+k=linspace(kmin,kmax,200)/sqrt(r2(N));
 
 % Flory-Huggins parameter
 if (PLOTDENSITY)
     figure;hold;set(gca,'fontsize',20)
-    CHIV=0:0.2:0.8;
+%     CHIV=0:0.2:0.8;
     p1=[];p2=[];
     for ii = 1:length(CHIV)
-        CHI=chis*CHIV(ii);
+        CHI=CHIV(ii);
         if length(CHIV)>1
             col = (ii-1)/(length(CHIV)-1);
         else
             col = 0;
         end
-
+        
         if CHI<=0.9*chis
             % plot mean-field results
             Smf=densitymf(N,FA,k,CHI);
-            p1(ii)=plot(k*sqrt(r2(N)),Smf./N,'color',[col 0 1-col],'linestyle','--','linewidth',2);
-            plot(ks*sqrt(r2(N)),densitymf(N,FA,ks,CHI)/N,'o',...
+            p1(ii)=plot(k*sqrt(r2(N)),Smf,'color',[col 0 1-col],'linestyle','--','linewidth',2);
+            plot(ks*sqrt(r2(N)),densitymf(N,FA,ks,CHI),'o',...
                 'MarkerSize',8,'MarkerEdgecolor',[col 0 1-col]);
         end
 
         % plot RG results
         Sfh=densityfh(N,C,FA,k,ks,CHI,d2gamma2,gam4);
-        p2(ii)=plot(k*sqrt(r2(N)),Sfh./N,'color',[col 0 1-col],'linestyle','-','linewidth',2);
-        plot(ks*sqrt(r2(N)),densityfh(N,C,FA,ks,ks,CHI,d2gamma2,gam4)/N,'o',...
+        p2(ii)=plot(k*sqrt(r2(N)),Sfh,'color',[col 0 1-col],'linestyle','-','linewidth',2);
+        plot(ks*sqrt(r2(N)),densityfh(N,C,FA,ks,ks,CHI,d2gamma2,gam4),'o',...
             'MarkerSize',8,'MarkerFacecolor',[col 0 1-col],'MarkerEdgecolor',[col 0 1-col]);
     end
     xlim([kmin,kmax]);box on
@@ -74,7 +80,7 @@ if (PLOTRG)
         Sfh(ii)=densityfh(N,C,FA,ks,ks,CHI,d2gamma2,gam4);
     end
 
-%     figure;hold;set(gca,'fontsize',20)
+    figure;hold;set(gca,'fontsize',20)
     col = 'k';
     plot(CHIV*chis*N,1./Smf,'--','linewidth',2,'color',col);
     plot(CHIV*chis*N,1./Sfh,'-','linewidth',2,'color',col);

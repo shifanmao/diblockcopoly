@@ -7,8 +7,8 @@ addpath('chainstats/eigcalc')
 addpath('chainstats/integrals')
 
 FA = 0.5;
-NV = logspace(0,3,20);  % number of statistical steps of total chain
-PV = [1,5,10,50]*100;
+NV=logspace(0,3,21);
+PV = [2,5,20,50]*1e5;
 
 figure;hold;set(gca,'fontsize',20)
 
@@ -17,20 +17,13 @@ figure;hold;set(gca,'fontsize',20)
 plot(NV,chis.*NV,'color','k','linewidth',2);
 
 col = 1;
+leg = {};
 for jj = 1:length(PV)
     COL = (col-1)/(length(PV)-1);
-    
-%     % Option 1: Keep L0 the same
-%     LoverV = PV(jj);
-%     CV = power(sqrt(r2(NV)),3)./NV.^3*LoverV;
 
-%     % Option 2: Keep LP the same
-%     LP3overV = PV(jj)
-%     CV = power(sqrt(r2(NV)),3).*LP3overV;
-
-    % Option 2: Keep C the same
-    C = sqrt(PV(jj));
-    CV = ones(length(NV),1)*C;
+    % Keep LP (aspect ratio) the same
+    LP3overV = PV(jj)
+    CV = power(sqrt(r2(NV)),3)./N.*LP3overV;
 
     chit = zeros(1,length(NV));
     for ii = 1:length(NV)
@@ -40,14 +33,23 @@ for jj = 1:length(PV)
     end
     plot(NV,chit.*NV,'color',[COL 0 1-COL],'linewidth',2);
     col = col+1;
+    
+    leg{jj} = strcat('(2l_P)^3/v=',sprintf('%d',PV(jj)));
 end
 xlabel('N');ylabel('\chiN');
 
+% % plot simulation results
+% C2sim = 1525.9;
+% SIMEPS = 32*[0.05,0.1,0.5,1.0];
+% SIMODT1 = [16.361,15.958,15.914,16.094];
+% SIMODT2 = [16.672,16.533,16.311,16.374];
+% SIMODT = (SIMODT1+SIMODT2)/2;
+% COL = (3-1)/(length(PV)-1);
+% plot(SIMEPS,SIMODT,'--','linewidth',2,'color',[COL 0 1-COL]);
+% plot(SIMEPS,SIMODT1,'s','linewidth',2,'color',[COL 0 1-COL]);
+% plot(SIMEPS,SIMODT2,'s','linewidth',2,'color',[COL 0 1-COL]);
+
 ylim([6,500]);
 set(gca,'linewidth',2);box on
-% legend('MF Theory','l_P^3/v = 1','l_P^3/v = 5','l_P^3/v = 10','l_P^3/v = 50')
-% legend('MF Theory','L^3/Nv = 100','L^3/Nv = 500','L^3/Nv = 1000','L^3/Nv = 5000')
-legend('MF Theory','C^2 = 100','C^2 = 500','C^2 = 1000','C^2 = 5000')
-% title(sprintf('C^2=%.2f',C^2))
-
+legend(leg);
 cd mkfigures/

@@ -10,19 +10,14 @@ clear;
 %%%%%%%%%%%%%%%%%%%%%%%% METHOD 1 :: KEEP R END-TO-END or C CONST. %%%%%%%%%%%%%%%%%%%%%%%%
 
 V = 0.1;
-% Ree = 5;
-% Ree = 4;
-% C2target = 1000;
-C2target = 1.5259e+03;
-GV = [16,32];
-% EPSV = [0.05,0.1,0.5,1.0];
-NV = [1.6,3.2,16,32];
+C2V = [1525.90,1e4];
+GV = [32];
+NV = [.05,.1,.2,.5,1,2,5]*32;
 results = [];
 
+for C2target = C2V
 for G = GV
-%     for EPS = EPSV;
     for N = NV
-        %         N = EPS*G;
         EPS = N/G;
         
         Ree = (sqrt(C2target)*G*0.1)^(1/3);
@@ -42,16 +37,17 @@ for G = GV
         LoverV = power(G*L0,3)/(G*V);
         C22 = r2(N)^3/N^6*LoverV^2; % alternative way to calculate C2 or C squared
         
-        results = [results;G,EPS,2*LP,C2,CHIS];
+        results = [results;N,C2,G,2*LP,L0,CHIS];
         fprintf('G=%d, EPS=%.2f, D=%.4f, L0=%.4f, 2LP=%.4f, R2=%.2f, C2=%.2f, LoverV=%.2f, CHIS = %.2f\n\n', ...
                  G,    EPS,      D,      L0,      2*LP,     R2,      C2,      LoverV,      CHIS)
     end
     fprintf('\n')
 end
+end
 
 % save to file
 filename = 'simparams';
-dlmwrite(filename,results,'precision','%.6f');
+dlmwrite(filename,results,'precision','%.6f','delimiter','\t');
 
 
 % 
