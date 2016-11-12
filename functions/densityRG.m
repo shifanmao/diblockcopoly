@@ -58,7 +58,7 @@ if (PLOTDENSITY)
             'MarkerSize',8,'MarkerFacecolor',[col 0 1-col],'MarkerEdgecolor',[col 0 1-col]);
     end
     xlabel('2l_Pq');
-    ylabel('$\left<\psi(\vec{q}^*)\psi(-\vec{q}^*)\right>/Nv$','Interpreter','latex')
+    ylabel('$\left<\tilde{\psi}(\vec{q}^*)\tilde{\psi}(-\vec{q}^*)\right>/Nv$','Interpreter','latex')
 	box on
 end
 
@@ -82,7 +82,7 @@ if (PLOTRG)
 
     xlim([1,17]);ylim([0,20]);box on
     xlabel('\chi N');
-    ylabel('$N\left<\psi(\vec{q}^*)\psi(-\vec{q}^*)\right>^{-1}$','Interpreter','latex')
+    ylabel('$N\left<\tilde{\psi}(\vec{q}^*)\tilde{\psi}(-\vec{q}^*)\right>^{-1}$','Interpreter','latex')
 
     sinvmf=densitymf(N,FA,ks,chis);
     plot(chis*N,1./sinvmf,'o','color',col,...

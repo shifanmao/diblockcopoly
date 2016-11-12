@@ -12,9 +12,9 @@ up to quartic-order density fluctuations.
 
 # Table of Contents
 1. [Installation] (README.md#installation)
-2. [Example 1: Phase Diagrams and Scattering Functions] (README.md#example1)
-3. [Example 2: Molecular Weight Dependence] (README.md#example2)
-4. [Input specifications] (README.md#inputs)
+2. [Example 1: Phase Diagrams and Scattering Functions] (README.m#example-1)
+3. [Example 2: Molecular Weight Dependence] (README.md#example-2)
+4. [Input specifications] (README.md#input-specifications)
 
 ##Installation
 Open Matlab and change directory to `diblockcopoly`. Then add the following folders to path with
@@ -26,7 +26,8 @@ addpath('chainstats/eigcalc')
 addpath('chainstats/integrals')
 ```
 
-##Example 1: Phase Diagrams and Scattering Functions
+##Example 1
+Example 1: Phase Diagrams and Scattering Functions
 First focus on diblock copolymers with some molecular weight. For example:
 ```
 N=100;  % number of statistical steps of total chain
@@ -52,7 +53,8 @@ densityRG(N,alpha,0.5);
 <img src="./example_figures/psi2.png" width="800" height="600" />
 <img src="./example_figures/sinv.png" width="800" height="600" />
 
-##Example 2: Molecular Weight Dependence
+##Example 2
+Example 2: Molecular Weight Dependence
 Here are some examples of molecular weight effects on phase transition, etc.
 The MF phase transition spinodal of diblock copolymer, and MF domain size `1/q^*` at different chain rigidities can be found with function `spinodal`.
 ```

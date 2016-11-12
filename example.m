@@ -18,6 +18,8 @@ plotphaseRG(N,alpha,FAV);
 
 % Figure 3-4: density-density correlations
 densityRG(N,alpha,0.5);
+figure(3);axis([0,1.5,0,.3])
+figure(4);axis([9,12,0,3])
 
 %%%%%%%%%%%%%%%% MOLECULAR WEIGHT DEPENDENCE EXAMPLES %%%%%%%%%%%%%%%%
 % Figure 5-6: mean-field spinodal and critical wavelength at FA=0.5
@@ -41,14 +43,23 @@ xlim([NV(1),NV(end)])
 xlabel('N');ylabel('1/q^*');box on
 
 % Figure 7: renormalized ODTs at FA=0.5
+figure;hold;set(gca,'fontsize',20)
+plot(NV,chis.*NV,'k--','linewidth',2)
+
+alpha=2;
 chit=zeros(length(NV),1);
 for ii = 1:length(NV)
     [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
 end
-figure;hold;set(gca,'fontsize',20)
-plot(NV,chis.*NV,'k--','linewidth',2)
-plot(NV,chit.*NV,'k-','MarkerSize',8)
-xlim([NV(1),NV(end)])
+plot(NV,chit.*NV,'r-','MarkerSize',8,'linewidth',2)
+
+alpha=4;
+chit=zeros(length(NV),1);
+for ii = 1:length(NV)
+    [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
+end
+plot(NV,chit.*NV,'b-','MarkerSize',8,'linewidth',2)
+axis([1,500,4,30]);box on
 set(gca,'xscale','log')
 
 % Figure 8-9: vertex functions

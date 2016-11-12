@@ -5,8 +5,9 @@ addpath('chainstats')
 addpath('misc')
 
 FAV = linspace(0.1,0.5,41);  % invariant degree of polymerization
-NQ=51;  % number of wavevector sets in calculating GAM4
-NV=logspace(-1,4,21);
+%NQ=51;  % number of wavevector sets in calculating GAM4
+NQ=4;
+NV=logspace(-1,4,51);
 
 % write to file
 filename='data/newgamdata';
