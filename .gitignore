@@ -2,5 +2,6 @@
 data/*
 
 # figures
-mkfigures/*.eps
-mkfigures/*.png
+mkfigures/figures/*.eps
+mkfigures/old/figure1/*
+mkfigures/old/figure2/*
