@@ -1,4 +1,4 @@
-clear;
+clear;close all
 addpath('functions')
 addpath('chainstats')
 addpath('misc')
@@ -6,10 +6,9 @@ addpath('chainstats/eigcalc')
 addpath('chainstats/integrals')
 
 %%%%%%%%%%%%%%%% SAME MOLECULAR WEIGHT EXAMPLES %%%%%%%%%%%%%%%%
-N=10;  % number of statistical steps of total chain
+N=100;  % number of statistical steps of total chain
 FAV=linspace(0.1,0.5,41);  % range of A monomer chemical composition
-alpha=4;  % dimensionless excluded volume parameter in the Gaussian limit
-        % In the Gaussian chain limit, Nbar = C^2
+alpha=4;  % chain aspect ratio
 
 % Figure 1: make a mean-field phase diagram
 plotphase(N,FAV);
@@ -24,29 +23,32 @@ densityRG(N,alpha,0.5);
 % Figure 5-6: mean-field spinodal and critical wavelength at FA=0.5
 NV=logspace(-1,4,21)';  % number of statistical steps of total chain
 chis=zeros(length(NV),1);
+ks=zeros(length(NV),1);
 for ii = 1:length(NV)
-    [chis(ii),ks,d2gam2]=spinodal(NV(ii),0.5);
+    [chis(ii),ks(ii),d2gam2]=spinodal(NV(ii),0.5);
 end
 
 figure;hold;set(gca,'fontsize',20);
-plot(NV,chis.*NV,'linewidth',2);
+plot(NV,chis.*NV,'k-','linewidth',2);
 set(gca,'xscale','log');set(gca,'yscale','linear');
+xlim([NV(1),NV(end)])
 xlabel('N');ylabel('\chiN');box on
 
 figure;hold;set(gca,'fontsize',20);
-plot(NV,1./ks,'linewidth',2);
+plot(NV,1./ks,'k-','linewidth',2);
 set(gca,'xscale','log');set(gca,'yscale','log');
+xlim([NV(1),NV(end)])
 xlabel('N');ylabel('1/q^*');box on
 
-% Figure 7: renormalized spinodal at FA=0.5
+% Figure 7: renormalized ODTs at FA=0.5
 chit=zeros(length(NV),1);
 for ii = 1:length(NV)
     [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
 end
 figure;hold;set(gca,'fontsize',20)
-col='b';
-plot(NV,chis.*NV,'-','linewidth',2,'color',col)
-plot(NV,chit.*NV,'s-','MarkerSize',8,'MarkerFaceColor',col,'MarkerEdgeColor',col);
+plot(NV,chis.*NV,'k--','linewidth',2)
+plot(NV,chit.*NV,'k-','MarkerSize',8)
+xlim([NV(1),NV(end)])
 set(gca,'xscale','log')
 
 % Figure 8-9: vertex functions
