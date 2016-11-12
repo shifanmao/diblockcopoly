@@ -31,10 +31,14 @@ surface([x;x],[y;y],[z;z],[col;col],...
 set(gca,'xscale','log');box on;
 xlim([1e-1,1e3]);ylim([6,11.5])
 xlabel('N');ylabel('\chi_S^{MF}N')
-plot(NV,ones(length(NV),1)*6.135,'b-','linewidth',2)
-plot(NV,ones(length(NV),1)*10.495,'k-','linewidth',2)
-text(40,6.135+0.31,'(\chi_S^{MF}N)_{RR}=6.135','FontSize',20,'color','b')
-text(0.15,10.495+0.31,'(\chi_S^{MF}N)_{GC}=10.495','FontSize',20,'color','k')
+plot(NV,ones(length(NV),1)*6.135,'b--','linewidth',2)
+plot(NV,ones(length(NV),1)*10.495,'k--','linewidth',2)
+% text(40,6.135+0.31,'(\chi_S^{MF}N)_{RR}=6.135','FontSize',20,'color','b')
+% text(0.15,10.495+0.31,'(\chi_S^{MF}N)_{GC}=10.495','FontSize',20,'color','k')
+text(2.5,6.135-0.91,'(\chi_S^{MF}N)_{RR}=6.135',...
+    'interpreter','tex','FontSize',20,'color','b')
+text(2.5,10.495+0.31,'(\chi_S^{MF}N)_{GC}=10.495','FontSize',20,'color','k')
+
 
 savename = sprintf('mkfigures/figure2B.eps');
 saveas(gcf,savename,'epsc')

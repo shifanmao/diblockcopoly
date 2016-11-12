@@ -1,24 +1,32 @@
-clear;close all;
+clear;
 addpath('functions')
 addpath('chainstats')
 addpath('misc')
 addpath('chainstats/eigcalc')
 addpath('chainstats/integrals')
 
-N=1e4;  % number of statistical steps of total chain
+%%%%%%%%%%%%%%%% SAME MOLECULAR WEIGHT EXAMPLES %%%%%%%%%%%%%%%%
+N=10;  % number of statistical steps of total chain
 FAV=linspace(0.1,0.5,41);  % range of A monomer chemical composition
-C=1e3;  % dimensionless excluded volume parameter in the Gaussian limit
+alpha=4;  % dimensionless excluded volume parameter in the Gaussian limit
         % In the Gaussian chain limit, Nbar = C^2
 
 % Figure 1: make a mean-field phase diagram
 plotphase(N,FAV);
 
 % Figure 2: make a phase diagram with density fluctuations
-plotphaseRG(N,C,FAV);
+plotphaseRG(N,alpha,FAV);
 
-% Figure 3-4: mean-field spinodal and critical wavelength at FA=0.5
-NV=logspace(-1,3,51);  % number of statistical steps of total chain
-[chis,ks,d2gam2]=spinodal(NV,0.5);
+% Figure 3-4: density-density correlations
+densityRG(N,alpha,0.5);
+
+%%%%%%%%%%%%%%%% MOLECULAR WEIGHT DEPENDENCE EXAMPLES %%%%%%%%%%%%%%%%
+% Figure 5-6: mean-field spinodal and critical wavelength at FA=0.5
+NV=logspace(-1,4,21)';  % number of statistical steps of total chain
+chis=zeros(length(NV),1);
+for ii = 1:length(NV)
+    [chis(ii),ks,d2gam2]=spinodal(NV(ii),0.5);
+end
 
 figure;hold;set(gca,'fontsize',20);
 plot(NV,chis.*NV,'linewidth',2);
@@ -30,24 +38,16 @@ plot(NV,1./ks,'linewidth',2);
 set(gca,'xscale','log');set(gca,'yscale','log');
 xlabel('N');ylabel('1/q^*');box on
 
-% Figure 5: renormalized spinodal at FA=0.5
-CV=logspace(1,4,21)';
-[chit,phase]=spinodalRG(N,CV,0.5);
-chit=reshape(chit,length(CV),1);
-
+% Figure 7: renormalized spinodal at FA=0.5
+chit=zeros(length(NV),1);
+for ii = 1:length(NV)
+    [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
+end
 figure;hold;set(gca,'fontsize',20)
 col='b';
-plot(CV.^2,ones(length(CV),1)*spinodal(N,0.5)*N,'-','linewidth',2,'color',col)
-plot(CV.^2,chit*N,'s','MarkerSize',8,'MarkerFaceColor',col,'MarkerEdgeColor',col);
-
-% %Empirical solutions
-plot(CV.^2,ones(length(CV),1)*10.480+41.01*power(CV,-2/3),'-','linewidth',2,'color','k')
-set(gca,'xscale','log');box on
-xlabel('C^2');ylabel('\chiN');title(['N=',num2str(N)])
-legend('MF theory','Renormalized ODT','Fit')
-
-% Figure 6-7: density-density correlations
-densityRG(N,C,0.5);
+plot(NV,chis.*NV,'-','linewidth',2,'color',col)
+plot(NV,chit.*NV,'s-','MarkerSize',8,'MarkerFaceColor',col,'MarkerEdgeColor',col);
+set(gca,'xscale','log')
 
 % Figure 8-9: vertex functions
 NQ=1;  % number of wavevector sets in calculating GAM4
@@ -62,10 +62,10 @@ xlabel('f_A');ylabel('N\Gamma_4(q^*)');box on
 
 figure(1);saveas(gca,'example_figures/MFphase.png','png')
 figure(2);saveas(gca,'example_figures/FLCphase.png','png')
-figure(3);saveas(gca,'example_figures/spinodal.png','png')
-figure(4);saveas(gca,'example_figures/domain.png','png')
-figure(5);saveas(gca,'example_figures/FLCspinodal.png','png')
-figure(6);saveas(gca,'example_figures/psi2.png','png')
-figure(7);saveas(gca,'example_figures/sinv.png','png')
+figure(3);saveas(gca,'example_figures/psi2.png','png')
+figure(4);saveas(gca,'example_figures/sinv.png','png')
+figure(5);saveas(gca,'example_figures/spinodal.png','png')
+figure(6);saveas(gca,'example_figures/domain.png','png')
+figure(7);saveas(gca,'example_figures/FLCspinodal.png','png')
 figure(8);saveas(gca,'example_figures/gam3.png','png')
 figure(9);saveas(gca,'example_figures/gam4.png','png')

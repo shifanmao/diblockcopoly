@@ -22,27 +22,29 @@ chi13(chi13<1e-8)=0;
 chi36(chi36<1e-8)=0;
 
 % make a phase diagram
-figure;set(gca,'fontsize',18);hold
+figure('Position', [100, 100, 1200, 900]);
+hold;set(gca,'fontsize',50);
 col1='k-';
 col2='r-';
 col3='b-';
 
 plot(FAV,chis*N,col1,'linewidth',2);
-plot(1-FAV,chis*N,col1,'linewidth',1.5)
+plot(1-FAV,chis*N,col1,'linewidth',2)
 FA05 = find(abs(FAV-0.5)<1e-2);
 if ~isempty(FA05)
     col = 'k';
     plot(0.5,chis(FA05)*N,'o','color',col,...
-    'MarkerSize',8,'MarkerFaceColor',col)
+    'MarkerSize',15,'MarkerFaceColor',col)
 end
 
-plot(FAV,(chi13+chis)*N,col2,'linewidth',1.5)
-plot(1-FAV,(chi13+chis)*N,col2,'linewidth',1.5)
+plot(FAV,(chi13+chis)*N,col2,'linewidth',2)
+plot(1-FAV,(chi13+chis)*N,col2,'linewidth',2)
 
-plot(FAV,(chi36+chis)*N,col3,'linewidth',1.5)
-plot(1-FAV,(chi36+chis)*N,col3,'linewidth',1.5)
+plot(FAV,(chi36+chis)*N,col3,'linewidth',2)
+plot(1-FAV,(chi36+chis)*N,col3,'linewidth',2)
 xlabel('f_A');ylabel('\chi N');box on
 xlim([FAV(1),1-FAV(1)]);ylim([5,20]);
+set(gca,'linewidth',2)
 end
 
 function [chi13,chi36,chi12,chi23,chi26]=phasediag(N,FAV,gam3,gam4)

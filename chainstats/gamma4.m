@@ -50,12 +50,12 @@ else
             s31 = s3gc(N,FA,Q1,Q2,-Q1-Q2);
             s32 = s3gc(N,FA,Q1,Q3,-Q1-Q3);
             s33 = s3gc(N,FA,Q1,Q4,-Q1-Q4);
-        elseif N<=1e-4  % Rigid rod limit
-            % Rigid rod correlations
-            s4 = s4rr(NM,FA,Q1,Q2,Q3,Q4);
-            s31 = s3rr(NM,FA,Q1,Q2,-Q1-Q2);
-            s32 = s3rr(NM,FA,Q1,Q3,-Q1-Q3);
-            s33 = s3rr(NM,FA,Q1,Q4,-Q1-Q4);
+%         elseif N<=1e-4  % Rigid rod limit
+%             % Rigid rod correlations
+%             s4 = s4rr(NM,FA,Q1,Q2,Q3,Q4);
+%             s31 = s3rr(NM,FA,Q1,Q2,-Q1-Q2);
+%             s32 = s3rr(NM,FA,Q1,Q3,-Q1-Q3);
+%             s33 = s3rr(NM,FA,Q1,Q4,-Q1-Q4);
         else
             % Worm-like chain correlations
             s4 = s4wlc(N,FA,Q1,Q2,Q3,Q4);

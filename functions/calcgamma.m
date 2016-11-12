@@ -20,7 +20,7 @@ if exist(filename,'file')
     data=dlmread(filename);
     for ii=1:length(FAV)
         FA=FAV(ii);
-        ind = find(abs(data(:,2)-FA)<1e-4 & abs(data(:,1)-N)<1e-4);
+        ind = find(abs(data(:,2)-FA)<1e-4 & abs(data(:,1)-N)<1e-2);
         if ~isempty(ind)
             fprintf('Step 2: Loading vertices at FA=%.2f, N=%.2e\n',FA,N)
             gam3(ii)=data(ind,3)/N;
