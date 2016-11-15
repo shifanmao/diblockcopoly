@@ -23,7 +23,7 @@ figure(4);axis([9,12,0,3])
 
 %%%%%%%%%%%%%%%% MOLECULAR WEIGHT DEPENDENCE EXAMPLES %%%%%%%%%%%%%%%%
 % Figure 5-6: mean-field spinodal and critical wavelength at FA=0.5
-NV=logspace(-1,4,21)';  % number of statistical steps of total chain
+NV=logspace(-1,4,51)';  % number of statistical steps of total chain
 chis=zeros(length(NV),1);
 ks=zeros(length(NV),1);
 for ii = 1:length(NV)

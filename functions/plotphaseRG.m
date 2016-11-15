@@ -56,12 +56,12 @@ hold;set(gca,'fontsize',50);
 plot(FAV,chit*N,'k-','linewidth',2.5)
 plot(1-FAV,chit*N,'k-','linewidth',2.5)
 FA05 = find(abs(FAV-0.5)<1e-2);
-plot(FAV,chis*N,'k--','linewidth',2)
-plot(1-FAV,chis*N,'k--','linewidth',2)
+% plot(FAV,chis*N,'k--','linewidth',2)
+% plot(1-FAV,chis*N,'k--','linewidth',2)
 if ~isempty(FA05)
     col = 'k';    
-    plot(0.5,chis(FA05)*N,'o','color',col,...
-    'MarkerSize',8,'MarkerFaceColor',col)
+%     plot(0.5,chis(FA05)*N,'o','color',col,...
+%     'MarkerSize',8,'MarkerFaceColor',col)
 
     plot(0.5,chit(FA05)*N,'s','color',col,...
     'MarkerSize',15,'MarkerFaceColor',col)

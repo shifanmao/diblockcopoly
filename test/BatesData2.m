@@ -1,6 +1,13 @@
 % plot Bates data with theoretical predictions
 clear;
-%close all
+cd ../
+
+addpath('functions')
+addpath('chainstats')
+addpath('misc')
+addpath('chainstats/eigcalc')
+addpath('chainstats/integrals')
+
 
 figure;
 set(gca,'fontsize',20)
@@ -24,20 +31,21 @@ FH = 10.495+41.0*power(NV*alpha^6,-1/3);
 
 % Morse Theory
 MORSE = 10.495+41.0*power(NV*alpha^6,-1/3)+123*power(NV*alpha^6,-0.56);
-
-NV = logspace(0,4,10)';
-CV = power(sqrt(r2(NV)),3)./NV.*power(alpha,3);
-for ii = 1:length(NV)
-    [chit(ii),phase]=spinodalRG(NV(ii),CV(ii),0.5);
-end
-chiall = chit'.*NV;
-
 plot(NV,SCFT,'k--')
 plot(NV,FH,'b--')
 plot(NV,MORSE,'r--')
+
+NV = logspace(0,4,10)';
+chit = zeros(length(NV),1);
+for ii = 1:length(NV)
+    [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
+end
+chiall = chit.*NV;
 plot(N,CHINODT1,'ko','markersize',10,'markerfacecolor','k');
 
 % process figure
 set(gca,'xscale','log')
 % xlim([1e2,1e4])
 box on
+
+cd mkfigures/
