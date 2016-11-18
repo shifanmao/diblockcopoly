@@ -1,6 +1,0 @@
-# data
-data/*
-
-# figures
-mkfigures/*.eps
-mkfigures/*.png
