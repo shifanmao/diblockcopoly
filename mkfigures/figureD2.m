@@ -1,15 +1,18 @@
 clear;
 cd ..
 
-PV = fliplr([1,2,3,4,5].^3);
-NV=logspace(0,4,51);
+alphaV = fliplr([1,2,3,4,5]);
+NV=logspace(0,4,51)';
 
 f = figure('Position', [0, 0, 1200, 800]);
 hold;
 set(gca,'fontsize',50)
 
 % calculate mean-field results
-[chis,ks,d2gam2]=spinodal(NV,0.5);
+chis = zeros(length(NV),1);
+for ii = 1:length(NV)
+    [chis(ii),ks,d2gam2]=spinodal(NV(ii),0.5);
+end
 plot(NV,chis.*NV,'k--','linewidth',3)
 
 % % plot mean-field results
@@ -19,36 +22,33 @@ plot(1,6.135,'ko','markerfacecolor','k','markersize',8)
 plot(500,10.495,'ko','markerfacecolor','k','markersize',8)
 
 col = 1;
-for jj = 1:length(PV)
-    COL = (col-1)/(length(PV)-1);
+for jj = 1:length(alphaV)
+    COL = (col-1)/(length(alphaV)-1);
     chit = zeros(1,length(NV));
 
     % plot one-loop results
-    LP3overV = PV(jj)
-    filename = strcat('data/chiODT',sprintf('_LP3overV%.2f',LP3overV));
+    alpha = alphaV(jj);
+
+    filename = strcat('data/chiODT',sprintf('_LP3overV%.2f',alpha^3));
     c1 = load(filename);
     plot(c1(:,1),c1(:,2),'-','color',[COL 0 1-COL],'linewidth',3);
-    
+
     % plot Fredrickson-Helfand Theory
-    chiNFH = 10.49+41.0*power(LP3overV^2*NV,-1/3);
+    chiNFH = 10.49+41.0*power(NV*alpha^6,-1/3);
     plot(NV,chiNFH,'--','color',[COL 0 1-COL],'linewidth',1.5)
-    
+
     col = col+1;
 end
 
-% x = [1.2,1];y = [6.135,6.135];
-% quiver(x(1),y(1),x(2)-x(1),y(2)-y(1),0 ,'linewidth',3,'color','k')
-% 
-% x = [450,500];y = [10.495,10.495];
-% quiver(x(1),y(1),x(2)-x(1),y(2)-y(1),0 ,'linewidth',3,'color','k')
-
 xlabel('N');
-ylabel('$\chi_{\mathrm{ODT}} N$','interpreter','latex')
+ylabel('$\chi_{\mathrm{ODT}}^{\mathrm{1L}} N$','interpreter','latex')
+ylabel('$(\chi N)_{\mathrm{ODT}}$','interpreter','latex')
 set(gca,'xscale','log')
-set(gca,'ytick',[4,10,20,30,40,50])
+% set(gca,'ytick',[4,10,20,30,40,50])
+set(gca,'ytick',[0,10,20,30,40,50])
 set(gca,'xtick',[1,5,10,50,100,500])
 xlim([1,5e2]);
-ylim([4,40]);
+ylim([0,30]);
 set(gca,'linewidth',1.5)
 box on
 

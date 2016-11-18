@@ -1,14 +1,14 @@
 %this code tests the calculation of 4-point correlation
-% clear;
+clear;
 addpath('../misc')
 addpath('integrals/')
 addpath('eigcalc/')
 
 %Chain structural information
-NM_GS=100;
+NM=20;
 
 %Chain chemical information
-FA=0.8;
+FA=1.0;
 
 % parameters for WLC calculations
 ORDEig=2;
@@ -16,7 +16,7 @@ ORDL=1;
 NumLayer=500;
 
 %wavevector and structure factor
-QM=logspace(0,3,20)';
+QM=logspace(-1,2,20)';
 Q1=zeros(length(QM),1);
 Q2=zeros(length(QM),1);
 Q3=zeros(length(QM),1);
@@ -37,23 +37,15 @@ figure;hold;set(gca,'fontsize',15);leg=[];
 g4=zeros(length(QM),2,2,2,2);
 for ii=1:length(QM)
    ii
-   g4(ii,:,:,:,:)=s4gc(NM_GS,FA,Q1(ii,1:3)/NM_GS,...
-                                      Q2(ii,1:3)/NM_GS,...
-                                      Q3(ii,1:3)/NM_GS,...
-                                      Q4(ii,1:3)/NM_GS);
-%    g4(ii,:,:,:,:)=s4wlc(NM_GS,FA,Q1(ii,1:3)/NM_GS,...
-%                                       Q2(ii,1:3)/NM_GS,...
-%                                       Q3(ii,1:3)/NM_GS,...
-%                                       Q4(ii,1:3)/NM_GS,ORDEig,ORDL,NumLayer);
-%    g4(ii,:,:,:,:)=s4rigid(NM_GS,FA,Q1(ii,1:3)/NM_GS,...
-%                                       Q2(ii,1:3)/NM_GS,...
-%                                       Q3(ii,1:3)/NM_GS,...
-%                                       Q4(ii,1:3)/NM_GS);
+%    g4(ii,:,:,:,:)=s4gc(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
+%    g4(ii,:,:,:,:)=s4wlc(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
+                                  %,ORDEig,ORDL,NumLayer);
+   g4(ii,:,:,:,:)=s4rr(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
 end
-g4=g4./power(NM_GS,4);
+g4=g4./power(NM,4);
 
 %make plots
-plot(QM,g4(:,1,1,1,1),'k-',...
+plot(QM,g4(:,1,1,1,1),'kx',...
      QM,g4(:,1,2,1,2),'r-','linewidth',2);
 leg=[leg {'Gaussian'}];
 

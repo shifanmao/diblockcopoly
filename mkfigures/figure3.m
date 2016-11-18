@@ -1,7 +1,7 @@
 clear;
 cd ..
 
-PV = fliplr([1,2,3,4,5].^3);
+alphaV = fliplr([1,2,3,4,5]);
 NV=logspace(0,4,51)';
 
 f = figure('Position', [0, 0, 1200, 800]);
@@ -22,33 +22,16 @@ plot(1,6.135,'ko','markerfacecolor','k','markersize',8)
 plot(500,10.495,'ko','markerfacecolor','k','markersize',8)
 
 col = 1;
-for jj = 1:length(PV)
-    COL = (col-1)/(length(PV)-1);
+for jj = 1:length(alphaV)
+    COL = (col-1)/(length(alphaV)-1);
     chit = zeros(1,length(NV));
 
     % plot one-loop results
-    LP3overV = PV(jj)
-%     if (any(LP3overV==[125,27,1]))
-%         col = col+1;
-%         continue
-%     end
+    alpha = alphaV(jj);
 
-    filename = strcat('data/chiODT',sprintf('_LP3overV%.2f',LP3overV));
+    filename = strcat('data/chiODT',sprintf('_LP3overV%.2f',alpha^3));
     c1 = load(filename);
     plot(c1(:,1),c1(:,2),'-','color',[COL 0 1-COL],'linewidth',3);
-    
-    if (any(LP3overV==[64,8]))
-        N10 = find(c1(:,1)==10);
-        N100 = find(c1(:,1)==100);
-        plot(c1(N10,1),c1(N10,2),'o','color',[COL 0 1-COL],...
-            'markerfacecolor',[COL 0 1-COL],'markersize',8)
-        plot(c1(N100,1),c1(N100,2),'o','color',[COL 0 1-COL],...
-            'markerfacecolor',[COL 0 1-COL],'markersize',8)
-    end
-    
-%     % plot Fredrickson-Helfand Theory
-%     chiNFH = 10.49+41.0*power(LP3overV^2*NV,-1/3);
-%     plot(NV,chiNFH,'--','color',[COL 0 1-COL],'linewidth',1.5)
     col = col+1;
 end
 

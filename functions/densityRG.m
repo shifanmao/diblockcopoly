@@ -1,5 +1,4 @@
 function [k,Smf,Sfh,chit,chis,CHIV,sinvmf,sinvfh]=densityRG(N,alpha,FA,CHIV,PLOTDENSITY,PLOTRG,NCHI)
-% function [chis,chit,CHIV,Smf,Sfh,sinvmf,sinvfh]=densityRG(N,C,FA,CHIV,PLOTDENSITY,PLOTRG,NCHI)
 % Plot density-density correlations during phase transition
 % according to Mean-field theory and FH theory
 % Usage :: [chis,chit]=densityRG(N,Nbar,FA)
