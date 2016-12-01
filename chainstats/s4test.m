@@ -5,51 +5,55 @@ addpath('integrals/')
 addpath('eigcalc/')
 
 %Chain structural information
-NM=20;
+N=100;
+NRR=20;
+
+%wavevector and structure factor
+% QM=linspace(1e-2,10,100)';
+
+QM=linspace(1e-1,50,100)'/N;
+QMRR=linspace(1e-1,50,100)'/NRR;
 
 %Chain chemical information
 FA=1.0;
-
-% parameters for WLC calculations
-ORDEig=2;
-ORDL=1;
-NumLayer=500;
-
-%wavevector and structure factor
-QM=logspace(-1,2,20)';
-Q1=zeros(length(QM),1);
-Q2=zeros(length(QM),1);
-Q3=zeros(length(QM),1);
-Q4=zeros(length(QM),1);
 ang=pi;
-for ii=1:length(QM)
-    Q1(ii,1:3)=QM(ii)*[1,0,0];
-    Q2(ii,1:3)=transpose(rotz(ang)*Q1(ii,1:3)');
-    Q3(ii,1:3)=-Q2(ii,1:3);
-    Q4(ii,1:3)=-Q1(ii,1:3);
-end
-
-%begin making plots
-figure;hold;set(gca,'fontsize',15);leg=[];
 
 %%%% Gaussian Chain %%%%
 %calculate s4
-g4=zeros(length(QM),2,2,2,2);
+g4gc=zeros(length(QM),2,2,2,2);
+g4wlc=zeros(length(QM),2,2,2,2);
+g4rr=zeros(length(QM),2,2,2,2);
 for ii=1:length(QM)
-   ii
-%    g4(ii,:,:,:,:)=s4gc(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
-%    g4(ii,:,:,:,:)=s4wlc(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
-                                  %,ORDEig,ORDL,NumLayer);
-   g4(ii,:,:,:,:)=s4rr(NM,FA,Q1(ii,1:3),Q2(ii,1:3),Q3(ii,1:3),Q4(ii,1:3));
+    ii
+    Q1=QM(ii)*[1,0,0];
+    Q2=transpose(rotz(ang)*Q1');
+    Q3=-Q2;
+    Q4=-Q1;
+    g4gc(ii,:,:,:,:)=s4gc(N,FA,Q1,Q2,Q3,Q4)./power(N,4);
+    g4wlc(ii,:,:,:,:)=s4wlc(N,FA,Q1,Q2,Q3,Q4)./power(N,4);
+    
+    Q1=QMRR(ii)*[1,0,0];
+    Q2=transpose(rotz(ang)*Q1');
+    Q3=-Q2;
+    Q4=-Q1;
+    g4rr(ii,:,:,:,:)=s4rr(NRR,FA,Q1,Q2,Q3,Q4)./power(NRR,4);
 end
-g4=g4./power(NM,4);
 
 %make plots
-plot(QM,g4(:,1,1,1,1),'kx',...
-     QM,g4(:,1,2,1,2),'r-','linewidth',2);
-leg=[leg {'Gaussian'}];
+figure;hold;set(gca,'fontsize',15);
+plot(QM,g4gc(:,1,1,1,1).*QM*N,'k-',...
+     QM,g4gc(:,1,2,1,2).*QM*N,'r-','linewidth',2);
+plot(QM,g4wlc(:,1,1,1,1).*QM*N,'k--',...
+     QM,g4wlc(:,1,2,1,2).*QM*N,'r--','linewidth',2);
+axis([0,10,0,20]);
+set(gca,'xscale','linear');set(gca,'yscale','linear');
+xlabel('K');ylabel('SkL')
 
-legend(leg);
-set(gca,'xscale','log');set(gca,'yscale','linear');ylim([0,1.3]);
-xlabel('Normalized Wavevector kL');
-ylabel('Normalized Structure Factor S/L^4')
+figure;hold;set(gca,'fontsize',15);
+plot(QM,g4wlc(:,1,1,1,1).*QM*N,'k--',...
+     QM,g4wlc(:,1,2,1,2).*QM*N,'r--','linewidth',2);
+plot(QM*NRR,g4rr(:,1,1,1,1).*QMRR*NRR,'k-',...
+     QM*NRR,g4rr(:,1,2,1,2).*QMRR*NRR,'r-','linewidth',2);
+axis([0,10,0,20]);
+set(gca,'xscale','linear');set(gca,'yscale','linear');
+xlabel('K');ylabel('SkL')

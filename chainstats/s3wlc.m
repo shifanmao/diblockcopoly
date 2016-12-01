@@ -13,7 +13,7 @@ ResLayer=500;  % number of residual layers
 FB=1-FA;
 
 NR=ORDEig;
-MIN=1e-5;
+MIN=1e-8;
 
 S3=zeros(2,2,2);
 % Begin calculation of s3

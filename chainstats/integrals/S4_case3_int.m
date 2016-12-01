@@ -10,7 +10,7 @@ function valeq=S4_case3_int(FA,R1,R12,R3)
     vec=[R1,R12,R3];
     nzeros=sum(abs(vec)<MIN);
     if nzeros==3
-        valeq=FA^2*FB^2*(R3+E12+FA*E1-FA*E3+3)/12;
+        valeq=FA^2*FB^2*(R3+R12+FA*R1-FA*R3+3)/12;
     elseif nzeros==2
         if max(abs([R1,R3]))<MIN   % 0~R1~R3
             valeq=exp(1).^((-1).*FA.*R12).*R12.^(-4).*((-1)+exp(1).^(FA.*R12)+(-1).* ...

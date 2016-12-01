@@ -17,7 +17,7 @@ chi36=zeros(NFA,1);
 [chit,phase]=spinodalRG(N,alpha,FAV);
 
 % calculate vertex functions
-NQ=1;  % assume to Q dependence
+NQ=1;  % assume no Q dependence
 [gam3,gam4]=calcgamma(N,FAV,NQ);
 gam3=real(gam3);
 gam4=real(gam4(:,1));
