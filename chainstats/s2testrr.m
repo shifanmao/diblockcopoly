@@ -40,5 +40,5 @@ plot(k*N,g2wlc(:,1,1).*k*N,'b-',...
 plot(kRR*NRR,g2rr(:,1,1).*kRR*NRR,'r-',...
      kRR*NRR,g2rr(:,1,2).*kRR*NRR,'r--','linewidth',2);
 plot([0,20],[pi,pi],'k:');
-axis([2,20,2,7]);
-xlabel('Lk');ylabel('SkL')
+axis([2,20,2,3.5]);
+xlabel('Lk');ylabel('SkL');box on

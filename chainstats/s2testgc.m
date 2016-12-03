@@ -1,5 +1,8 @@
 %this code tests the calculation of 2-point correlation
 clear;
+addpath('eigcalc')
+addpath('integrals')
+addpath('../misc')
 
 %Chain structural information
 N=100;
@@ -35,8 +38,8 @@ plot(k,g2wlc(:,1,1).*k*N,'b-',...
 plot([0,10],[pi,pi],'k:');
 set(gca,'xscale','linear');set(gca,'yscale','linear');
 axis([0,10,0,20]);
-xlabel('K');ylabel('SkL')
-% 
+xlabel('K');ylabel('SkL');box on
+
 % figure;hold;set(gca,'fontsize',15);
 % plot(k*N,g2wlc(:,1,1).*k*N,'b-',...
 %      k*N,g2wlc(:,1,2).*k*N,'b--','linewidth',2);

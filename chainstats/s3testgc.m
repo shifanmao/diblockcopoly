@@ -1,5 +1,8 @@
 %this code tests the calculation of 3-point correlation
 clear;
+addpath('eigcalc')
+addpath('integrals')
+addpath('../misc')
 
 %Chain structural information
 N=100;
@@ -37,13 +40,15 @@ end
 %make plots
 figure;hold;set(gca,'fontsize',15);leg=[];
 plot(QM,g3gc(:,1,1,1).*QM*N,'k-',...
-     QM,g3gc(:,1,2,1).*QM*N,'b-',...
-     QM,g3gc(:,1,1,2).*QM*N,'r-','linewidth',2);
-plot(QM,g3wlc(:,1,1,1).*QM*N,'k--',...
+     QM,g3gc(:,1,2,1).*QM*N,'k--',...
+     QM,g3gc(:,1,1,2).*QM*N,'k-.','linewidth',2);
+plot(QM,g3wlc(:,1,1,1).*QM*N,'b-',...
      QM,g3wlc(:,1,2,1).*QM*N,'b--',...
-     QM,g3wlc(:,1,1,2).*QM*N,'r--','linewidth',2);
+     QM,g3wlc(:,1,1,2).*QM*N,'b-.','linewidth',2);
 plot([0,10],[pi,pi],'k:');
+axis([0,10,0,20]);
 set(gca,'xscale','linear');set(gca,'yscale','linear');
+xlabel('K');ylabel('SkL');box on
 
 % figure;hold;set(gca,'fontsize',15);
 % plot(QM*N,g3wlc(:,1,1,1).*QM*N,'k--',...
