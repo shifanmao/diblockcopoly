@@ -1,7 +1,7 @@
 function valeq=S4_case3_int(FA,R1,R12,R3)
 % on same monomer
 %     if min([R1,R12,R3])<-700
-    if min(real([R1,R12,R3]))<-500
+    if min(real([R1,R12,R3]))<-200
         valeq=0;
         return
     end

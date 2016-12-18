@@ -21,6 +21,7 @@ function val=gamma3(N,FA,k)
 
 %result to return
 val=zeros(length(k),1);
+NRR=50;  % rigid rod bead discretization
 
 %combination matrix
 M=combinator(2,3,'p','r');
@@ -34,7 +35,8 @@ for j=1:length(k)
 
     if N>=1e4  % Gaussian chain limit
         s3 = s3gc(N,FA,Q1,Q2,Q3);
-    elseif N<=1e-4  % Rigid rod limit
+    elseif N<=1e-2  % Rigid rod limit
+        N = NRR;
         s3 = s3rr(N,FA,Q1,Q2,Q3);
     else
         s3 = s3wlc(N,FA,Q1,Q2,Q3);
@@ -50,5 +52,10 @@ for j=1:length(k)
                 (s2inv(M(I,3),1)-s2inv(M(I,3),2)));
     end
 end
-val=val*power(N,2);
+
+if N<=1e-2
+  val=val*power(NRR,2);
+else
+  val=val*power(N,2);   
+end
 end

@@ -14,6 +14,7 @@ function [chis,ks,d2gam2]=spinodal(N,FAV)
 chis=zeros(length(FAV),1);     % spinodal
 ks=zeros(length(FAV),1);       % critical wavelength of density fluctuations
 d2gam2=zeros(length(FAV),1);   % inverse of susceptibility
+NRR=50;
 
 for ii=1:length(FAV)
     fprintf('Step 1: Calculating spinodal at N=%.2e,FA=%.2f\n',N,FAV(ii))
@@ -23,9 +24,15 @@ for ii=1:length(FAV)
     G=@(k) gamma2(N,FA,k,0);
 
     % initial guesses of kstar
-    R2 = r2(N);
-    k0=-1e-2/(sqrt(R2));
-    kf=1e1/(sqrt(R2));
+    if N<=1e-2
+      R2 = r2(NRR);
+      k0=-1e-2/(sqrt(R2));
+      kf=1e1/(sqrt(R2));
+    else
+      R2 = r2(N);
+      k0=-1e-2/(sqrt(R2));
+      kf=1e1/(sqrt(R2));	
+    end
     ks(ii) = fminbnd(G,k0,kf);
     chis(ii) = 0.5*G(ks(ii));
 

@@ -21,6 +21,7 @@ function val=gamma2(N,FA,k,CHI)
 
 %result to return
 val=zeros(length(k),1);
+NRR=50;
 
 %combination matrix
 M=combinator(2,2,'p','r');
@@ -37,7 +38,12 @@ for j = 1:length(k)
                 s2inv(M(I,1),M(I,2))*...
                 D(M(I,1))*D(M(I,2)));
     end
-    val(j) = -2*CHI+N*G;
+
+    if N<=1e-2 
+      val(j) = -2*CHI+NRR*G;
+    else
+      val(j) = -2*CHI+N*G;
+    end
 end
 
 end

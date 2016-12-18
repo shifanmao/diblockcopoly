@@ -26,6 +26,8 @@ function val=gamma4(N,FA,k,Q1,Q2,Q3,Q4)
 % Shifan Mao 06/10/15
 
 MIN=1e-10;
+NRR=50;  % rigid rod bead discretization
+
 if norm(Q1+Q2+Q3+Q4)>=MIN
     disp('ERROR :: Qs must add up to zero')
     return
@@ -50,12 +52,12 @@ else
             s31 = s3gc(N,FA,Q1,Q2,-Q1-Q2);
             s32 = s3gc(N,FA,Q1,Q3,-Q1-Q3);
             s33 = s3gc(N,FA,Q1,Q4,-Q1-Q4);
-%         elseif N<=1e-4  % Rigid rod limit
-%             % Rigid rod correlations
-%             s4 = s4rr(NM,FA,Q1,Q2,Q3,Q4);
-%             s31 = s3rr(NM,FA,Q1,Q2,-Q1-Q2);
-%             s32 = s3rr(NM,FA,Q1,Q3,-Q1-Q3);
-%             s33 = s3rr(NM,FA,Q1,Q4,-Q1-Q4);
+        elseif N<=1e-2  % Rigid rod limit
+            % Rigid rod correlations
+            s4 = s4rr(NRR,FA,Q1,Q2,Q3,Q4);
+            s31 = s3rr(NRR,FA,Q1,Q2,-Q1-Q2);
+            s32 = s3rr(NRR,FA,Q1,Q3,-Q1-Q3);
+            s33 = s3rr(NRR,FA,Q1,Q4,-Q1-Q4);
         else
             % Worm-like chain correlations
             s4 = s4wlc(N,FA,Q1,Q2,Q3,Q4);
@@ -98,5 +100,9 @@ else
     end
 end
 
-val=val*power(N,3);
+if N<=1e-2
+  val=val*power(NRR,3);
+else
+  val=val*power(N,3);   
+end   
 end

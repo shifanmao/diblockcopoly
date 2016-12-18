@@ -4,32 +4,32 @@ addpath('eigcalc')
 
 d=3.0;
 K0=1e-2;
-KF=1e2;
+KF=1e4;
 NK=1000;
 K=transpose(logspace(log10(K0),log10(KF),NK));
 
-ORD=10;
+ORD=4;
 ResLayer=500;
 
-ORDL = 1;
+ORDL = 2;
 ORDMU = 1;
 
 R=zeros(NK,ORD);
 smallK=zeros(NK,ORD);
 largeK=zeros(NK,ORD);
-largeKV=zeros(NK,ORD,1,ORD);
 G=zeros(NK,ORD);
 
 for I=1:NK    
     EI=Eigenvalues(K(I),ORD,ORDL);
     R(I,:)=transpose(EI(:,ORDL));
+    R(I,:)=transpose(EI(:,2));
 end
 
 for I=1:NK
     EigK = transpose(R(I,:));
     [smallKV,largeKV]=Residues_two(K(I),EigK,ORD,ORDL,ResLayer,ORDMU);
-    smallK(I,:)=smallKV(1,1,1,:);
-    largeK(I,:)=largeKV(1,1,1,:);
+    smallK(I,:)=smallKV(2,2,1,:);
+    largeK(I,:)=largeKV(2,2,1,:);
 end
 
 for I=ORDL:ORD
@@ -59,6 +59,7 @@ for I=ORDL:ORD
       indc2 = 1;
     end
     ind = max([indc1,indc2]);
+ind = 200;
     kc = K(ind);
     G(:,I) = [smallK(1:ind,I);largeK(ind+1:end,I)];
 
@@ -69,17 +70,19 @@ for I=ORDL:ORD
     loglog(K,abs(imag(G(:,I))),'.-','LineWidth',2,'Color',[COL 0 1-COL])
     hold on
 
-%    figure(3)
-%    loglog(K,abs(real(largeK(:,I))),'-','LineWidth',2,'Color',[COL 0 1-COL])
-%    hold on
-%    figure(4)
-%    loglog(K,abs(imag(largeK(:,I))),'-','LineWidth',2,'Color',[COL 0 1-COL])
-%    hold on
+    %{
+      figure(3)
+    loglog(K,abs(real(largeK(:,I))),'-','LineWidth',2,'Color',[COL 0 1-COL])
+    hold on
+    figure(4)
+    loglog(K,abs(imag(largeK(:,I))),'-','LineWidth',2,'Color',[COL 0 1-COL])
+    hold on
 
-%    figure(3)
-%    loglog(K,abs(real(smallK(:,I))),'x','LineWidth',2,'Color',[COL 0 1-COL])
-%    hold on
-%    figure(4)
-%    loglog(K,abs(imag(smallK(:,I))),'x','LineWidth',2,'Color',[COL 0 1-COL])
-%    hold on
+    figure(3)
+    loglog(K,abs(real(smallK(:,I))),'x','LineWidth',2,'Color',[COL 0 1-COL])
+    hold on
+    figure(4)
+    loglog(K,abs(imag(smallK(:,I))),'x','LineWidth',2,'Color',[COL 0 1-COL])
+    hold on
+	%}
 end

@@ -3,6 +3,7 @@ clear;
 addpath('functions')
 addpath('chainstats')
 addpath('misc')
+addpath(genpath('chainstats'))
 
 FAV = linspace(0.1,0.5,41);  % invariant degree of polymerization
 %NQ=51;  % number of wavevector sets in calculating GAM4
