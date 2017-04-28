@@ -18,7 +18,6 @@ for jj = 1:length(PHIPV)
     end
 end
 
-
 filename = sprintf('../data/N%.2fCHIABN%.2fIEIG%d.mat', N, CHI(1,2)*N, IEIG);
 save(filename, 'FAV', 'PHIPV', 'EIGV', 'EIG');
 
@@ -43,7 +42,6 @@ else
 end
 
 box on
-colormap jet
 colorbar
 axis off
 grid off

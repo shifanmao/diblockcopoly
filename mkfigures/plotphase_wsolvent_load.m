@@ -20,8 +20,12 @@ end
 if CHI(1,1) > 0
     title(strcat('\chiN', sprintf('=%.2f', CHI(1,1)*N)))
 else
-    title(strcat('\chiN', sprintf('=%.2f', CHI(1,2)*N)))
+%     title(strcat('\chiN', sprintf('=%.2f', CHI(1,2)*N)))
+    text(0,1,strcat('\chiN', sprintf('=%.2f', CHI(1,2)*N)), 'fontsize', 18)
 end
+
+plot3(1/sqrt(3),0.5,1e10,'r.', 'markersize', 20)
+plot3(1/sqrt(3),0,1e10,'r.', 'markersize', 20)
 
 box on
 colormap jet
@@ -29,5 +33,6 @@ colorbar
 axis off
 grid off
 set(gca,'fontsize',18)
+set(gcf,'color','white')
 
 hold off

@@ -1,4 +1,4 @@
-function plotsurf(X, Y, V)
+function plotcontour(X, Y, V)
 
 X1 = zeros(length(X), length(Y));
 X2 = zeros(length(X), length(Y));
@@ -15,8 +15,5 @@ for jj = 1:length(Y)
     end
 end
 
-% figure;hold
-% hq = quiver(X1,X2,V1,V2,'color','k', 'linewidth', 1.);
-surf(X1, X2, V1,'EdgeColor','none');
-view([0,90])
-% contour(X1, X2, V1, 'ShowText', 'on');
+% contourf(X1, X2, V1, 10, 'ShowText', 'on');
+contourf(X1, X2, V1, 'ShowText', 'on');

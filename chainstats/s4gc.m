@@ -106,8 +106,8 @@ end
 end
 function S4=S4_case1(S4,N,R1,R12,R3,FA,FB)
 % Case 1: A1=A2=A3=A4
-    S4(1,1,1,1)=S4(1,1,1,1)+2*S4_case1_int(R1,R12,R3,FA)*N^4;
-    S4(2,2,2,2)=S4(2,2,2,2)+2*S4_case1_int(R1,R12,R3,FB)*N^4;
+    S4(1,1,1,1)=S4(1,1,1,1)+2*S4_case1_int(FA,R1,R12,R3)*N^4;
+    S4(2,2,2,2)=S4(2,2,2,2)+2*S4_case1_int(FB,R1,R12,R3)*N^4;
 end
 function S4=S4_case2(S4,N,R1,R12,R3,FA,FB)
 % Case 2: A1=A2=A3~=A4
@@ -125,53 +125,4 @@ end
 function S4=S4_case5(S4,N,R1,R12,R3,FA)
 % Case 5: A1~=A2~=A3~=A4 (SABAB)
     S4(1,2,1,2)=S4(1,2,1,2)+S4_case3_int(FA,R1,R12,R3)*N^4;
-end
-
-function valeq=S4_case1_int(E1,E12,E3,N)
-MIN=(10^-3)/N;
-vec=[E1,E12,E3];
-nzeros=sum(abs(vec)<MIN);
-if nzeros==3
-    valeq=N^4*(N*(E1+E12+E3)+5)/120;
-elseif nzeros==2
-    [~,index]=max(abs(vec));
-    others=vec; others(index)=[];
-    valeq=chicken(others(1),others(2),vec(index),N);
-elseif nzeros==1
-    [~,index]=min(abs(vec));
-    others=vec; others(index)=[];
-    if abs(others(1)-others(2))<MIN
-        val=0.5*(others(1)+others(2));
-        valeq=(-6*expl(3,N*val)+2*N*val*expl(2,N*val))/(2*val^4);
-    else
-        valeq=(expl(4,N*others(2))/(others(2)^3)...
-            -expl(4,N*others(1))/(others(1)^3))...
-            /(others(2)-others(1));
-    end
-else
-    dif=abs([E12-E3,E3-E1,E1-E12]);
-    if max(dif)<MIN
-        val=mean([E1,E12,E3]);
-        valeq=(1/2)*val^(-4)*((-2)*(3+val*N)+exp(val*N)*(6+val*N*(( ...
-            -4)+val*N)));
-    elseif min(dif)>MIN
-        valeq=E1.^(-2).*(E1+(-1).*E12).^(-1).*E12.^(-2).*(E1+(-1).*E3).^(-1).*( ...
-          E12+(-1).*E3).^(-1).*E3.^(-2).*(((-1)+exp(1).^(E1.*N)).*E12.^2.*( ...
-          E12+(-1).*E3).*E3.^2+E1.*E12.^2.*E3.^2.*((-1).*E12+E3).*N+E1.^3.* ...
-          ((-1).*((-1)+exp(1).^(E12.*N)).*E3.^2+E12.*E3.^2.*N+E12.^2.*(( ...
-          -1)+exp(1).^(E3.*N)+(-1).*E3.*N))+E1.^2.*(((-1)+exp(1).^(E12.* ...
-          N)).*E3.^3+(-1).*E12.*E3.^3.*N+E12.^3.*(1+(-1).*exp(1).^(E3.*N) ...
-          +E3.*N)));
-    else
-        [~,index]=min(dif);
-        val=vec(index);
-        others=vec; others(index)=[];
-        oval=0.5*sum(others);
-        valeq=((-3*oval*expl(4,N*oval)+N*oval^2*expl(3,N*oval))*val^2+...
-          (2*expl(4,N*oval)-N*oval*expl(3,N*oval))*val^3+...
-          oval^3*expl(4,N*val))/(oval^3*val^2*(oval-val)^2);       
-        
-    end
-    
-end
 end

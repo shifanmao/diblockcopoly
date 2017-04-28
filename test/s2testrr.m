@@ -1,13 +1,14 @@
 %this code tests the calculation of 2-point correlation
 clear;
+addpath(genpath('../chainstats/'))
 
 %Chain structural information
 N=1;
-NRR=20;
+NRR=100;
 
 %wavevector
-k=linspace(1e-5,20,100)'/N;
-kRR=linspace(1e-5,20,100)'/NRR;
+k=linspace(1e-5,1e3,100)'/N;
+kRR=linspace(1e-5,1e3,100)'/NRR;
 
 %Chain chemical information
 FA=1.0;
@@ -16,10 +17,12 @@ FA=1.0;
 %calculate s2
 g2gc=zeros(length(k),2,2);
 g2wlc=zeros(length(k),2,2);
-g2rr=zeros(length(k),2,2);
+g2rr=zeros(length(kRR),2,2);
 for ii=1:length(k)
 %     g2gc(ii,:,:) = s2gc(N,FA,k(ii))/power(N,2);
     g2wlc(ii,:,:) = s2wlc(N,FA,k(ii))/power(N,2);
+end
+for ii=1:length(kRR)
     g2rr(ii,:,:) = s2rr(NRR,FA,kRR(ii))/power(NRR,2);
 end
 

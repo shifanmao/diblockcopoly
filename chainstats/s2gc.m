@@ -9,7 +9,7 @@ FB=1-FA;
 R =-NM*k*k/(2*d);
 
 s2=zeros(2,2);
-if abs(R)<1e-10
+if abs(R)<1e-5
     s2(1,1)=FA*FA;
     s2(2,2)=FB*FB;
     s2(1,2)=FA*FB;

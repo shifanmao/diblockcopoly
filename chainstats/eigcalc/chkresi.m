@@ -1,4 +1,3 @@
-addpath('eigcalc/')
 clear
 close all
 
@@ -9,11 +8,11 @@ NK=1000;
 K=transpose(logspace(log10(K0),log10(KF),NK));
 
 L1 = 2;
-L2 = 2;
-M = 3;
+L2 = 1;
+M = 1;
 
-ORDL=4;
-ORDM=4;
+ORDL=3;
+ORDM=3;
 ORD=20;
 ResLayer=500;
 
