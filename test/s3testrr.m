@@ -8,8 +8,10 @@ NRR=20;
 %wavevector and structure factor
 % QM=linspace(1e-5,10,500)';
 
-QM=linspace(1e-5,50,100)'/N;
-QMRR=linspace(1e-5,50,100)'/NRR;
+% QM=linspace(1e-5,10,20)'/N;
+% QMRR=linspace(1e-5,10,20)'/NRR;
+QM=logspace(-3,3,20)'/N;
+QMRR=logspace(-3,3,20)'/NRR;
 
 %Chain chemical information
 FA=1.00;
@@ -46,13 +48,23 @@ end
 % plot([0,10],[pi,pi],'k:');
 % set(gca,'xscale','linear');set(gca,'yscale','linear');
 
+% figure;hold;set(gca,'fontsize',15);
+% plot(QM*N,g3wlc(:,1,1,1).*QM*N,'b-',...
+%      QM*N,g3wlc(:,1,2,1).*QM*N,'b--',...
+%      QM*N,g3wlc(:,1,1,2).*QM*N,'b-.','linewidth',2);
+% plot(QMRR*NRR,g3rr(:,1,1,1).*QMRR*NRR,'r-',...
+%      QMRR*NRR,g3rr(:,1,2,1).*QMRR*NRR,'r--',...
+%      QMRR*NRR,g3rr(:,1,1,2).*QMRR*NRR,'r-.','linewidth',2);
+% plot([0,50],[pi,pi],'k:');
+% % axis([2,50,2,4]);
+% set(gca,'xscale','linear');set(gca,'yscale','linear');
+% xlabel('Lk');ylabel('SkL');box on
+
+
 figure;hold;set(gca,'fontsize',15);
-plot(QM*N,g3wlc(:,1,1,1).*QM*N,'b-',...
-     QM*N,g3wlc(:,1,2,1).*QM*N,'b--',...
-     QM*N,g3wlc(:,1,1,2).*QM*N,'b-.','linewidth',2);
-plot(QMRR*NRR,g3rr(:,1,1,1).*QMRR*NRR,'r-',...
-     QMRR*NRR,g3rr(:,1,2,1).*QMRR*NRR,'r--',...
-     QMRR*NRR,g3rr(:,1,1,2).*QMRR*NRR,'r-.','linewidth',2);
-plot([0,50],[pi,pi],'k:');axis([2,50,2,4]);
+plot(QM*N,g3wlc(:,1,1,1),'b-')
+plot(QMRR*NRR,g3rr(:,1,1,1),'r-')
+plot([0,50],[pi,pi],'k:');
+% axis([2,50,2,4]);
 set(gca,'xscale','linear');set(gca,'yscale','linear');
 xlabel('Lk');ylabel('SkL');box on

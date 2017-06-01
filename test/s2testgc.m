@@ -15,7 +15,8 @@ ORDEig=10;
 NumLayer=500;
 
 %wavevector
-k=linspace(1e-2,10,100)';
+% k=linspace(1e-2,10,100)';
+k=logspace(-2,4,100)';
 
 %%%% Gaussian Chain %%%%
 %calculate s2
@@ -29,25 +30,27 @@ for ii=1:length(k)
 end
 
 %make plots
-figure;hold;set(gca,'fontsize',15);
-plot(k,g2gc(:,1,1).*k*N,'k-',...
-     k,g2gc(:,2,2).*k*N,'r-',...
-     k,g2gc(:,1,2).*k*N,'k--','linewidth',2);
-plot(k,g2wlc(:,1,1).*k*N,'b-',...
-     k,g2wlc(:,2,2).*k*N,'r-',...
-     k,g2wlc(:,1,2).*k*N,'b--','linewidth',2);
-
- 
-plot([0,10],[pi,pi],'k:');
-set(gca,'xscale','linear');set(gca,'yscale','linear');
-axis([0,10,0,20]);
-xlabel('K');ylabel('SkL');box on
-
 % figure;hold;set(gca,'fontsize',15);
-% plot(k*N,g2wlc(:,1,1).*k*N,'b-',...
-%      k*N,g2wlc(:,1,2).*k*N,'b--','linewidth',2);
-% plot(k*NRR,g2rr(:,1,1).*k*NRR,'r-',...
-%      k*NRR,g2rr(:,1,2).*k*NRR,'r--','linewidth',2);
-% plot([0,20],[pi,pi],'k-.');
-% axis([2,20,2,7]);
-% xlabel('K');ylabel('SkL')
+% plot(k,g2gc(:,1,1).*k*N,'k-',...
+%      k,g2gc(:,2,2).*k*N,'r-',...
+%      k,g2gc(:,1,2).*k*N,'k--','linewidth',2);
+% plot(k,g2wlc(:,1,1).*k*N,'b-',...
+%      k,g2wlc(:,2,2).*k*N,'r-',...
+%      k,g2wlc(:,1,2).*k*N,'b--','linewidth',2);
+%
+% plot([0,10],[pi,pi],'k:');
+% set(gca,'xscale','linear');set(gca,'yscale','linear');
+% axis([0,10,0,20]);
+% xlabel('K');ylabel('SkL');box on
+
+
+
+figure;hold;set(gca,'fontsize',15);
+plot(k,g2gc(:,1,1),'k-',...
+     k,g2gc(:,2,2),'r-',...
+     k,g2gc(:,1,2),'b-','linewidth',2);
+plot(k,g2wlc(:,1,1),'k--',...
+     k,g2wlc(:,2,2),'r--',...
+     k,g2wlc(:,1,2),'b--','linewidth',2);
+set(gca,'xscale','log');set(gca,'yscale','log')
+box on

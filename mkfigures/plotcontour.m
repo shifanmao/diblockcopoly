@@ -15,5 +15,5 @@ for jj = 1:length(Y)
     end
 end
 
-% contourf(X1, X2, V1, 10, 'ShowText', 'on');
-contourf(X1, X2, V1, 'ShowText', 'on');
+contourf(X1, X2, V1, [6,linspace(6.5,50,20)], 'ShowText', 'on');
+% contourf(X1, X2, V1, 'ShowText', 'on');

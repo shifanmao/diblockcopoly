@@ -23,13 +23,13 @@ else
 end
 DET=s2(1,1,:)*s2(2,2,:)-s2(1,2,:)*s2(2,1,:);
 % 
-% if abs(k)<MIN
-%     if N<=1e-2
-%       s2inv=ones(2,2)./power(NRR,2);
-%     else
-%       s2inv=ones(2,2)./power(N,2);
-%     end
-% else
+if abs(k)<MIN
+    if N<=1e-2
+      s2inv=ones(2,2)./power(NRR,2);
+    else
+      s2inv=ones(2,2)./power(N,2);
+    end
+else
     s2inv(1,1) = s2(2,2)./DET;
     s2inv(1,2) = -s2(1,2)./DET;
     s2inv(2,1) = -s2(2,1)./DET;
