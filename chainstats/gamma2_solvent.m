@@ -76,7 +76,6 @@ for ii = 1:length(KV)
           EIG(ii, 1:2) = [GAMAA, 1e10];
 
       elseif FA == 0
-
           %%% CALCULATE S FUNCTIONS %%%
           s2 = s2wlc(N,FA,k);
           SBBINV = 1/s2(2,2);
