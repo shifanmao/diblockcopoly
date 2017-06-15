@@ -7,7 +7,7 @@ function S4=s4wlc(NM,FA,Q1,Q2,Q3,Q4)
 %   S4(1,1,2,1)=SAABA
 
 % parameters for worm-like chain calculations
-ORDEig=5;  % maximum number of eigenvalues
+ORDEig=20;  % maximum number of eigenvalues
 ORDL=5;
 NumLayer=500;  % number of residual layers
 FB=1-FA;

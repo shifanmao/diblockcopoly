@@ -15,6 +15,7 @@ while (chie - chis) > 1e-2/N/PHIP
     end
 end
 CHIABS = (chis + chie) / 2;
+CHIABS = chis;
 
 CHI = setCHIAB(CHIABS);
 [KS, EIGS, EIGVS] = eigs_wsolvent(N, FA, PHIP, CHI, 1);
@@ -24,5 +25,4 @@ end
 function CHI = setCHIAB(CHIAB)
     CHIBA = CHIAB;
     CHI = [0, CHIAB; CHIBA, 0];
-%     CHI = [0.8, CHIAB; CHIBA, 0.4];
 end

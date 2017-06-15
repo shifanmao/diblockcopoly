@@ -1,12 +1,11 @@
 %this code tests the calculation of 4-point correlation
 clear;
 addpath('../misc')
-addpath('integrals/')
-addpath('eigcalc/')
+addpath(genpath('../chainstats'))
 
 %Chain structural information
+% N=100;
 N=100;
-% N=1;
 NRR=20;
 
 %wavevector and structure factor
@@ -18,9 +17,13 @@ QF = 1e2;
 QM=linspace(Q0,QF,NQ)'/N;
 QMRR=linspace(Q0,QF,NQ)'/NRR;
 
+QM = logspace(-2,2,100);
+QMRR = logspace(-2,2,100)'/NRR;
+
 %Chain chemical information
 FA=1.0;
 ang=pi-1e-3;
+ang=pi/2;
 
 %%%% Gaussian Chain %%%%
 %calculate s4
@@ -34,8 +37,8 @@ for ii=1:length(QM)
     Q3=-Q2;
     Q4=-Q1;
     g4gc(ii,:,:,:,:)=s4gc(N,FA,Q1,Q2,Q3,Q4)./power(N,4);
-    g4wlc(ii,:,:,:,:)=s4wlc(N,FA,Q1,Q2,Q3,Q4)./power(N,4);
-    
+%     g4wlc(ii,:,:,:,:)=s4wlc(N,FA,Q1,Q2,Q3,Q4)./power(N,4);
+%     
    Q1=QMRR(ii)*[1,0,0];
    Q2=transpose(rotz(ang)*Q1');
    Q3=-Q2;
@@ -67,15 +70,4 @@ end
 % 
 % 
 % 
-
-figure;hold;set(gca,'fontsize',15);
-plot(QM*N,g4gc(:,1,1,1,1),'k-',...
-     QM*N,g4gc(:,1,2,1,2),'k--','linewidth',2);
-plot(QM*N,g4wlc(:,1,1,1,1),'b-',...
-     QM*N,g4wlc(:,1,2,1,2),'b--','linewidth',2);
-plot(QMRR*NRR,g4rr(:,1,1,1,1),'r-',...
-    QMRR*NRR,g4rr(:,1,2,1,2),'r--','linewidth',2);
-plot([0,50],2/3*[pi,pi],'k:');
-axis([0,10,0,20]);
-set(gca,'xscale','linear');set(gca,'yscale','linear');
-xlabel('kL');ylabel('SkL');box on
+b 

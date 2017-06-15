@@ -26,7 +26,9 @@ for jj = 1:length(Y)
             V1(ii,jj) = V1(ii,jj)*arrowlength;
             V2(ii,jj) = V2(ii,jj)*arrowlength;
             
-            plot(X1(ii,jj), X2(ii,jj), 'k.', 'markersize', 10)
+            if ~(jj==length(Y) && ii==1) || (jj==length(Y) && ii==lenFAVV(jj))
+                plot3(X1(ii,jj), X2(ii,jj), 1e5, 'k.', 'markersize', 15)
+            end
         end
     end
 end

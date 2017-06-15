@@ -7,11 +7,13 @@ N=1;
 NRR=100;
 
 %wavevector
-k=linspace(1e-5,1e3,100)'/N;
-kRR=linspace(1e-5,1e3,100)'/NRR;
+% k=linspace(1e-5,1e3,100)'/N;
+% kRR=linspace(1e-5,1e3,100)'/NRR;
+k=logspace(-5,3,100)';
+kRR=logspace(-5,3,100)';
 
 %Chain chemical information
-FA=1.0;
+FA=0.5;
 
 %%%% Gaussian Chain %%%%
 %calculate s2
@@ -44,4 +46,14 @@ plot(kRR*NRR,g2rr(:,1,1).*kRR*NRR,'r-',...
      kRR*NRR,g2rr(:,1,2).*kRR*NRR,'r--','linewidth',2);
 plot([0,20],[pi,pi],'k:');
 axis([2,20,2,3.5]);
+xlabel('Lk');ylabel('SkL');box on
+
+
+figure;hold;set(gca,'fontsize',15);
+plot(k,g2wlc(:,1,1),'b-',...
+     k,g2wlc(:,1,2),'b--','linewidth',2);
+plot(kRR,g2rr(:,1,1),'r-',...
+     kRR,g2rr(:,1,2),'r--','linewidth',2);
+plot([0,20],[pi,pi],'k:');
+% axis([2,20,2,3.5]);
 xlabel('Lk');ylabel('SkL');box on
