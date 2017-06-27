@@ -48,20 +48,20 @@ end
 
 % make a phase diagram
 ind13=find((phase==3 | phase==6) & chi13*N-chit*N>1e-2);
-% ind36=find((phase==6) & (chi36*N-chit*N>1e-2) & (chi36*N-chi13*N>1e-2));
 ind36=find((phase==6) & (chi36*N-chit*N>1e-2) & (chi13*N-chi36*N>1e-2));
 
 figure('Position', [100, 100, 1200, 900]);
-hold;set(gca,'fontsize',50);
+hold;
+set(gca,'fontsize',50);
 plot(FAV,chit*N,'k-','linewidth',2.5)
 plot(1-FAV,chit*N,'k-','linewidth',2.5)
 FA05 = find(abs(FAV-0.5)<1e-2);
-% plot(FAV,chis*N,'k--','linewidth',2)
-% plot(1-FAV,chis*N,'k--','linewidth',2)
+plot(FAV,chis*N,'k--','linewidth',2)
+plot(1-FAV,chis*N,'k--','linewidth',2)
 if ~isempty(FA05)
     col = 'k';    
-%     plot(0.5,chis(FA05)*N,'o','color',col,...
-%     'MarkerSize',8,'MarkerFaceColor',col)
+    plot(0.5,chis(FA05)*N,'o','color',col,...
+    'MarkerSize',8,'MarkerFaceColor',col)
 
     plot(0.5,chit(FA05)*N,'s','color',col,...
     'MarkerSize',15,'MarkerFaceColor',col)
@@ -92,7 +92,9 @@ end
 
 set(gca,'linewidth',2)
 xlabel('f_A');ylabel('\chi N');box on
-xlim([FAV(1),1-FAV(1)]);ylim([5,20])
+xlim([FAV(1),1-FAV(1)]);ylim([5,30])
+set(gca,'xtick',0.1:0.1:0.9)
+set(gca,'fontsize',50);
 end
 
 function chi13=chioot(chis,c,Gi,N,miu,lam,n1,n2)

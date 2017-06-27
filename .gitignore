@@ -5,6 +5,7 @@ data/*
 mkfigures/*.eps
 mkfigures/*.avi
 mkfigures/figures/*.eps
+mkfigures/diblock-figures/*
 mkfigures/old/figure1/*
 mkfigures/old/figure2/*
 chainstats/*.eps

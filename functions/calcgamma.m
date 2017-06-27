@@ -19,12 +19,18 @@ filename='data/gamdata';
 if exist(filename,'file')
     data=dlmread(filename);
     for ii=1:length(FAV)
-        FA=FAV(ii);
-        ind = find(abs(data(:,2)-FA)<1e-4 & abs(data(:,1)-N)<1e-2);
-        if ~isempty(ind)
+        FA = FAV(ii);
+        FB = 1-FA;
+        ind1 = find(abs(data(:,2)-FA)<1e-4 & abs(data(:,1)-N)<1e-2);
+        ind2 = find(abs(data(:,2)-FB)<1e-4 & abs(data(:,1)-N)<1e-2);
+        if ~isempty(ind1)
             fprintf('Step 2: Loading vertices at FA=%.2f, N=%.2e\n',FA,N)
-            gam3(ii)=data(ind,3)/N;
-            gam4(ii,1:NQ)=data(ind,4:3+NQ)/N;
+            gam3(ii)=data(ind1,3)/N;
+            gam4(ii,1:NQ)=data(ind1,4:3+NQ)/N;
+        elseif ~isempty(ind2)
+            fprintf('Step 2: Loading vertices at FA=%.2f, N=%.2e\n',FA,N)
+            gam3(ii)=-data(ind2,3)/N;
+            gam4(ii,1:NQ)=data(ind2,4:3+NQ)/N;
         else
             [gam3(ii),gam4(ii,1:NQ)]=gamma(N,FA,NQ);
         end

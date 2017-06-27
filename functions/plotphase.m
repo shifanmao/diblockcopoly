@@ -43,7 +43,8 @@ plot(1-FAV,(chi13+chis)*N,col2,'linewidth',2)
 plot(FAV,(chi36+chis)*N,col3,'linewidth',2)
 plot(1-FAV,(chi36+chis)*N,col3,'linewidth',2)
 xlabel('f_A');ylabel('\chi N');box on
-xlim([FAV(1),1-FAV(1)]);ylim([5,20]);
+xlim([FAV(1),1-FAV(1)]);ylim([5,30]);
+set(gca,'xtick',0.1:0.1:0.9)
 set(gca,'linewidth',2)
 end
 

@@ -70,13 +70,15 @@ function chit=spinodalfh(N,alpha,d2gam2,gam3,gam4,ks,chis,n)
     % start solving self-consistent equations
     
     % solver option
+    tollev = 1e-16;
     options = optimset('Display','off',...
-        'TolX',1e-14,'TolFun',1e-14,'MaxFunEvals',1e14,'MaxIter',1e14);
+        'TolX',tollev,'TolFun',tollev,'MaxFunEvals',1/tollev,'MaxIter',1/tollev);
 
     % initial guesses, lower bounds and upper bounds of solutions
-    x0 = [-1e2,1,1,1];
-    lb=[-1e5,0,0,0];
-    ub=[0,1e5,1e5,1e5];
+    x0 = [-1e1,1,1,1]/N;
+    bnd = 1e5;
+    lb=[-bnd,0,0,0];
+    ub=[0,bnd,bnd,bnd];
     
     % find corrected spinodal
     % use Hartree approximation from Fredrickson-Helfand theory
