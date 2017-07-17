@@ -33,11 +33,6 @@ for jj = 1:length(alphaV)
     col = col+1;
 end
 
-% % plot mean-field results
-plot(NV,chis.*NV','k--','linewidth',3)
-plot(1e-1,6.135,'ko','markerfacecolor','k','markersize',8)
-plot(1e3,10.495,'ko','markerfacecolor','k','markersize',8)
-
 xlabel('N');
 ylabel('$\chi^{\mathrm{1L}}_{\mathrm{ODT}}N$','interpreter','latex')
 set(gca,'xscale','log');
@@ -48,26 +43,24 @@ xlim([1e-1,1e3]);
 ylim([5,30]);
 set(gca,'linewidth',1.5)
 box on
-% 
-% % add asymptotes
-% col = 1;
-% for jj = 1:length(alphaV)
-%     COL = (col-1)/(length(alphaV)-1);
-%     
-%     alpha = alphaV(jj);
-%     
-%     Nrange = logspace(log10(50), 3, 10);
-%     Yrange = 10.495 + 41.0*power(Nrange*alpha^6, -1/3);
-%     plot(Nrange, Yrange, '--', 'color', [COL 0 1-COL], 'linewidth', 3)
-%     
-% %     Nrange = logspace(0, log10(3), 10);
-%     Nrange = logspace(0, log10(50), 10)/alpha^2;
-%     Yrange = 6.135 + 111*power(Nrange*alpha^2, -1);
-% %     plot(Nrange, Yrange, '--', 'color', [COL 0 1-COL], 'linewidth', 3)
-%     plot(Nrange*alpha^2, Yrange, '--', 'color', [COL 0 1-COL], 'linewidth', 3)
-%     col = col+1;
-% end
-% 
+
+% add asymptotes
+col = 1;
+for jj = 1:length(alphaV)
+    COL = (col-1)/(length(alphaV)-1);
+    
+    alpha = alphaV(jj);
+    
+    Yrange = 10.495 + 41.0*power(NV*alpha^6, -1/3);
+    plot(NV, Yrange, '--', 'color', [COL 0 1-COL], 'linewidth', 3)
+    col = col+1;
+end
+
+% % plot mean-field results
+plot(NV,chis.*NV','k-','linewidth',3)
+plot(1e-1,6.135,'ko','markerfacecolor','k','markersize',8)
+plot(1e3,10.495,'ko','markerfacecolor','k','markersize',8)
+
 % col = 1;
 % for jj = 1:length(alphaV)
 %     COL = (col-1)/(length(alphaV)-1);    

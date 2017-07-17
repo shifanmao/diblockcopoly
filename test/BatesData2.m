@@ -20,6 +20,7 @@ fa = 0.51;v = 118;b = (1-fa)*7.2+fa*8.3;
 alpha = b/power(v,1/3);
 Nbar = N*power(alpha,6);
 CHINODT1 = 22;
+plot(N,CHINODT1,'ko','markersize',10,'markerfacecolor','k');
 
 % SCFT Theory
 % NV = logspace(0,log10(500),100)';
@@ -35,13 +36,13 @@ plot(NV,SCFT,'k--')
 plot(NV,FH,'b--')
 plot(NV,MORSE,'r--')
 
-NV = logspace(0,4,10)';
+% NV = logspace(0,4,10)';
+NV = logspace(0,3,61);
 chit = zeros(length(NV),1);
 for ii = 1:length(NV)
     [chit(ii),phase]=spinodalRG(NV(ii),alpha,0.5);
 end
-chiall = chit.*NV;
-plot(N,CHINODT1,'ko','markersize',10,'markerfacecolor','k');
+chiall = chit.*NV';
 
 % process figure
 set(gca,'xscale','log')

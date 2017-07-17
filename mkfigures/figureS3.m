@@ -2,10 +2,10 @@
 clear;
 
 CALCON = 0;
-filename1 = '../data/figureS2ATriMesh';
-filename2 = '../data/figureS2BTriMesh';
-filename3 = '../data/figureS2CTriMesh';
-filename4 = '../data/figureS2DTriMesh';
+filename1 = '../data/old/figureS2ATriMesh';
+filename2 = '../data/old/figureS2BTriMesh';
+filename3 = '../data/old/figureS2CTriMesh';
+filename4 = '../data/old/figureS2DTriMesh';
 filenames = {filename1, filename2, filename3, filename4};
 
 if CALCON

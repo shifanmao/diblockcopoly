@@ -1,4 +1,4 @@
-function [k,Smf,Sfh,chit,chis,CHIV,sinvmf,sinvfh]=densityRG(N,alpha,FA,CHIV,PLOTDENSITY,PLOTRG,NCHI)
+function [k,Smf,Sfh,chit,chis,CHIV,sinvmf,sinvfh]=densityRG(N,alpha,FA,PLOTDENSITY,PLOTRG)
 % Plot density-density correlations during phase transition
 % according to Mean-field theory and FH theory
 % Usage :: [chis,chit]=densityRG(N,Nbar,FA)
@@ -10,16 +10,17 @@ function [k,Smf,Sfh,chit,chis,CHIV,sinvmf,sinvfh]=densityRG(N,alpha,FA,CHIV,PLOT
 
 % find mean-field spinodal
 [chis,ks,d2gamma2]=spinodal(N,FA);
+CHIV=(0:0.2:0.8)*chis;
+
+% find renormalized spinodal
+chit=spinodalRG(N,alpha,FA);
 
 if nargin == 3
-    CHIV=(0:0.2:0.8)*chis;
     PLOTRG = 1;
     PLOTDENSITY = 1;
-    NCHI = 500;    
 elseif nargin == 4
     PLOTRG = 1;
     PLOTDENSITY = 1;
-    NCHI = 500;
 end
 
 % find quartic order paramter
@@ -27,6 +28,9 @@ end
 NQ=1;
 [~,gam4]=calcgamma(N,FA,NQ);
 gam4=real(gam4(end,1));
+
+sinvmf=densitymf(N,FA,ks,chis);
+sinvfh=densityfh(N,alpha,FA,ks,ks,chit,d2gamma2,gam4);
 
 % PLOT1: DENSITY CORRELATION  %%
 % wavevectors
@@ -64,7 +68,7 @@ end
 % PLOT2: CRITICAL MODE vs CHI
 if (PLOTRG)
     % Flory-Huggins parameter
-    CHIV=linspace(0,4,NCHI);
+    CHIV=linspace(0,4,500);
 
     Smf = zeros(length(CHIV),1);
     Sfh = zeros(length(CHIV),1);
@@ -83,14 +87,10 @@ if (PLOTRG)
     xlabel('\chi N');
     ylabel('$N\left<\tilde{\psi}(\vec{q}^*)\tilde{\psi}(-\vec{q}^*)\right>^{-1}$','Interpreter','latex')
 
-    sinvmf=densitymf(N,FA,ks,chis);
     plot(chis*N,1./sinvmf,'o','color',col,...
         'MarkerSize',15,'MarkerFaceColor',col);
-    % find renormalized spinodal
-    chit=spinodalRG(N,alpha,FA);
-    sinvfh=densityfh(N,alpha,FA,ks,ks,chit,d2gamma2,gam4);
-        plot(chit*N,1./sinvfh,'s','color',col,...
-        'MarkerSize',15,'MarkerFaceColor',col);
+    plot(chit*N,1./sinvfh,'s','color',col,...
+    'MarkerSize',15,'MarkerFaceColor',col);
 end
 
 end

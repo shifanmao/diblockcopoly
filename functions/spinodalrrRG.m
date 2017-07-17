@@ -1,4 +1,4 @@
-function [chit,phase]=spinodalRG(N,alpha,FAV)
+function [chit,phase]=spinodalrrRG(N,alpha,FAV)
 % SPINODALRG  Find the renormalized spinodal by FH theory
 % Usage: [chit,phase]=spinodalRG(N,alphaV,FA)
 % Inputs:
@@ -14,13 +14,13 @@ chit=zeros(length(FAV),1);     % renormalized spinodal
 phase=zeros(length(FAV),1);     % renormalized spinodal
 
 % find spinodal
-[chisV,ksV,d2gam2V]=spinodal(N,FAV);
+[chisV,ksV,d2gam2V]=spinodalrr(N,FAV);
 
 % calculate vertex functions
 NQ=1;  % assume to Q dependence
-[gam3,gam4]=calcgamma(N,FAV,NQ);
-gam3V=real(gam3);
-gam4V=real(gam4(:,1));
+[gam3,gam4]=calcgamma(0.1,FAV,NQ);
+gam3V=real(gam3)*0.1/N;
+gam4V=real(gam4(:,1))*0.1/N;
 
 for ii = 1:length(FAV)
     fprintf('Step 3: Calculating renormalized spinodal at N=%.2e,alpha=%.2f,FA=%.2f\n',N,alpha,FAV(ii))
@@ -75,7 +75,7 @@ function chit=spinodalfh(N,alpha,d2gam2,gam3,gam4,ks,chis,n)
         'TolX',tollev,'TolFun',tollev,'MaxFunEvals',1/tollev,'MaxIter',1/tollev);
 
     % initial guesses, lower bounds and upper bounds of solutions
-    x0 = [-1e2,1,1,1];
+    x0 = [-1e3,1,1,1]/(N);
     bnd = 1e5;
     lb=[-bnd,0,0,0];
     ub=[0,bnd,bnd,bnd];

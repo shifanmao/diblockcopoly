@@ -1,18 +1,17 @@
 clear;
 
 % Figure 1
-filename = 'fig1plot';
+filename = 'fig1rrplot';
 outfile = fopen(filename, 'wt');
 
 NV = logspace(-1,3,81);
-NV = [1, 2, 4, 10, 20, 40, 100];
 
+% alphaV = [1,2,4,8,16];
 alphaV = 1;
-alphaV = [2, 4];
 for alpha = alphaV
     for nn = 1:length(NV)
         N = NV(nn);
-        [chit,phase]=spinodalRG(N,alpha,0.5);
+        [chit,phase]=spinodalrrRG(N,alpha,0.5);
         
         result = [alpha, N, chit*N];
         fprintf(outfile,'%.2f, %.4f, %.4f\n',result);
